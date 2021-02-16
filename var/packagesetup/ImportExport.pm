@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package var::packagesetup::ImportExport;    ## no critic
+package var::packagesetup::ImportExport;
 
 use strict;
 use warnings;
@@ -110,7 +110,7 @@ This function is only executed if the installed module version is smaller than 2
 
 =cut
 
-sub CodeUpgradeFromBefore_2_0_3 {    ## no critic
+sub CodeUpgradeFromBefore_2_0_3 {    ## no critic qw(OTOBO::RequireCamelCase)
     my ( $Self, %Param ) = @_;
 
     # fix a typo in the database
@@ -127,7 +127,7 @@ my $Result = $CodeObject->CodeUpgradeFromLowerThan_4_0_91();
 
 =cut
 
-sub CodeUpgradeFromLowerThan_4_0_91 {    ## no critic
+sub CodeUpgradeFromLowerThan_4_0_91 {    ## no critic qw(OTOBO::RequireCamelCase)
     my ( $Self, %Param ) = @_;
 
     # change configurations to match the new module location.

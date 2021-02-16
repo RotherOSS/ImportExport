@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -105,8 +105,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # Click on 'Add template'.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminImportExport;Subaction=TemplateEdit' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminImportExport;Subaction=TemplateEdit' )]")->VerifiedClick();
 
         # Check and input step 1 of 5 screen.
         for my $StepOneID (
@@ -290,8 +289,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminImportExport");
 
         # Click on 'Import'.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ImportInformation;TemplateID=$TemplateID' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ImportInformation;TemplateID=$TemplateID' )]")->VerifiedClick();
 
         # Select Exported file and start importing.
         $Selenium->find_element("//input[contains(\@name, \'SourceFile' )]")->send_keys($ExportLocation);
