@@ -2,13 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ImportExport\n"
 "POT-Creation-Date: 2020-01-24 10:41+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2021-06-19 21:21+0000\n"
+"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
+"otobo10/importexport/es_MX/>\n"
+"Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminImportExport
 msgid "Import/Export Management"
@@ -116,7 +119,7 @@ msgstr "Último número de línea procesada del archivo a importar"
 
 #. Template: AdminImportExport
 msgid "Ok"
-msgstr "Aceptar"
+msgstr "Bien"
 
 #. Template: AdminImportExport
 msgid "Do you really want to delete this template item?"
@@ -241,4 +244,3 @@ msgstr "Importar y exportar información de un objeto."
 #. SysConfig
 msgid "Import/Export"
 msgstr "Importar/Exportar"
-
