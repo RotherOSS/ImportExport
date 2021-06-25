@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ImportExport\n"
 "POT-Creation-Date: 2020-01-24 10:41+0000\n"
-"PO-Revision-Date: 2021-06-19 21:21+0000\n"
+"PO-Revision-Date: 2021-06-25 19:53+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/importexport/es_MX/>\n"
@@ -28,6 +28,9 @@ msgstr "Crear una plantilla para importar y exportar información de objetos."
 #. Template: AdminImportExport
 msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
 msgstr ""
+"Para utilizar este módulo, es necesario instalar ITSMConfigurationManagement "
+"o cualquier otro paquete que proporcione el back end para la importación y "
+"exportación de objetos."
 
 #. Template: AdminImportExport
 msgid "Start Import"
@@ -39,7 +42,7 @@ msgstr "Iniciar Exportación"
 
 #. Template: AdminImportExport
 msgid "Delete this template"
-msgstr ""
+msgstr "Eliminar esta plantilla"
 
 #. Template: AdminImportExport
 msgid "Step 1 of 5 - Edit common information"
@@ -55,7 +58,7 @@ msgstr "Es requerido un objeto!"
 
 #. Template: AdminImportExport
 msgid "Format is required!"
-msgstr "Es requerido un formato."
+msgstr "¡Es requerido un formato!"
 
 #. Template: AdminImportExport
 msgid "Step 2 of 5 - Edit object information"
@@ -123,7 +126,7 @@ msgstr "Bien"
 
 #. Template: AdminImportExport
 msgid "Do you really want to delete this template item?"
-msgstr ""
+msgstr "¿Realmente desea eliminar este elemento de la plantilla?"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "No object backend found!"
@@ -223,15 +226,17 @@ msgstr "Calumna"
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "Deleting template..."
-msgstr ""
+msgstr "Eliminando plantilla..."
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "There was an error deleting the template. Please check the logs for more information."
 msgstr ""
+"Se ha producido un error al borrar la plantilla. Por favor, compruebe los "
+"logs para obtener más información."
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "Template was deleted successfully."
-msgstr ""
+msgstr "La plantilla ha sido eliminada con éxito."
 
 #. SysConfig
 msgid "Format backend module registration for the import/export module."
