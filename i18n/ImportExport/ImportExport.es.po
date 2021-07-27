@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ImportExport\n"
 "POT-Creation-Date: 2020-01-24 10:41+0000\n"
-"PO-Revision-Date: 2021-07-01 02:17+0000\n"
-"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"PO-Revision-Date: 2021-07-28 02:14+0000\n"
+"Last-Translator: Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/"
 "importexport/es/>\n"
 "Language: es\n"
@@ -28,6 +28,9 @@ msgstr "Crear una plantilla para importar y exportar información de objetos."
 #. Template: AdminImportExport
 msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
 msgstr ""
+"Para usar este módulo, debe instalar ITSMConfigurationManagement o cualquier "
+"otro paquete que proporcione back-end para que los objetos se importen y "
+"exporten."
 
 #. Template: AdminImportExport
 msgid "Start Import"
@@ -39,7 +42,7 @@ msgstr "Iniciar Exportación"
 
 #. Template: AdminImportExport
 msgid "Delete this template"
-msgstr ""
+msgstr "Eliminar esta plantilla"
 
 #. Template: AdminImportExport
 msgid "Step 1 of 5 - Edit common information"
@@ -123,7 +126,7 @@ msgstr "Ok"
 
 #. Template: AdminImportExport
 msgid "Do you really want to delete this template item?"
-msgstr ""
+msgstr "¿Realmente desea eliminar este elemento de plantilla?"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "No object backend found!"
@@ -223,15 +226,17 @@ msgstr "Calumna"
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "Deleting template..."
-msgstr ""
+msgstr "Eliminando plantilla..."
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "There was an error deleting the template. Please check the logs for more information."
 msgstr ""
+"Ocurrió un error eliminando la plantilla. Comprueba el registro de errores "
+"para obtener más información."
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "Template was deleted successfully."
-msgstr ""
+msgstr "La plantilla se eliminó correctamente."
 
 #. SysConfig
 msgid "Format backend module registration for the import/export module."
