@@ -66,6 +66,7 @@
         <File Permission="660" Location="Kernel/Language/zh_TW_ImportExport.pm" />
         <File Permission="660" Location="Kernel/Modules/AdminImportExport.pm" />
         <File Permission="660" Location="Kernel/Output/HTML/ImportExport/LayoutCheckbox.pm" />
+        <File Permission="660" Location="Kernel/Output/HTML/ImportExport/LayoutDateTime.pm" />
         <File Permission="660" Location="Kernel/Output/HTML/ImportExport/LayoutTT.pm" />
         <File Permission="660" Location="Kernel/Output/HTML/ImportExport/LayoutSelection.pm" />
         <File Permission="660" Location="Kernel/Output/HTML/ImportExport/LayoutText.pm" />
