@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ImportExport\n"
 "POT-Creation-Date: 2020-01-24 10:41+0000\n"
-"PO-Revision-Date: 2022-05-30 11:48+0000\n"
+"PO-Revision-Date: 2022-06-09 09:26+0000\n"
 "Last-Translator: Philipp Kesler <philipp.kesler@hein.de>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/"
 "importexport/ru/>\n"
@@ -127,7 +127,7 @@ msgstr "Ok"
 
 #. Template: AdminImportExport
 msgid "Do you really want to delete this template item?"
-msgstr ""
+msgstr "Вы действительно хотите удалить этот элемент шаблона?"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "No object backend found!"
