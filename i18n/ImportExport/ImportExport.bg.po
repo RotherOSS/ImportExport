@@ -2,243 +2,252 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ImportExport\n"
 "POT-Creation-Date: 2020-01-24 10:41+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2022-12-15 17:07+0000\n"
+"Last-Translator: Yasen Arsov <jarsov@gmail.com>\n"
+"Language-Team: Bulgarian <https://translate.otobo.org/projects/otobo10/"
+"importexport/bg/>\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminImportExport
 msgid "Import/Export Management"
-msgstr ""
+msgstr "Управление на Импорт/Експорт"
 
 #. Template: AdminImportExport
 msgid "Add template"
-msgstr ""
+msgstr "Добавете шаблон"
 
 #. Template: AdminImportExport
 msgid "Create a template to import and export object information."
-msgstr ""
+msgstr "Създайте шаблон за импортиране и експортиране на информация за обект."
 
 #. Template: AdminImportExport
 msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
 msgstr ""
+"За да използвате този модул, трябва да инсталирате "
+"ITSMConfigurationManagement или всеки друг пакет, който предоставя бекенд за "
+"обекти, които да бъдат импортирани и експортирани."
 
 #. Template: AdminImportExport
 msgid "Start Import"
-msgstr ""
+msgstr "Стартирайте импортирането"
 
 #. Template: AdminImportExport
 msgid "Start Export"
-msgstr ""
+msgstr "Стартирайте експортиране"
 
 #. Template: AdminImportExport
 msgid "Delete this template"
-msgstr ""
+msgstr "Изтрийте този шаблон"
 
 #. Template: AdminImportExport
 msgid "Step 1 of 5 - Edit common information"
-msgstr ""
+msgstr "Стъпка 1 от 5 – Редактирайте обща информация"
 
 #. Template: AdminImportExport
 msgid "Name is required!"
-msgstr ""
+msgstr "Името е задължително!"
 
 #. Template: AdminImportExport
 msgid "Object is required!"
-msgstr ""
+msgstr "Обектът е задължителен!"
 
 #. Template: AdminImportExport
 msgid "Format is required!"
-msgstr ""
+msgstr "Изисква се формат!"
 
 #. Template: AdminImportExport
 msgid "Step 2 of 5 - Edit object information"
-msgstr ""
+msgstr "Стъпка 2 от 5 - Редактиране на информация за обекта"
 
 #. Template: AdminImportExport
 msgid "Step 3 of 5 - Edit format information"
-msgstr ""
+msgstr "Стъпка 3 от 5 - Редактиране на информация за формата"
 
 #. Template: AdminImportExport
 msgid "is required!"
-msgstr ""
+msgstr "изисква се!"
 
 #. Template: AdminImportExport
 msgid "Step 4 of 5 - Edit mapping information"
-msgstr ""
+msgstr "Стъпка 4 от 5 - Редактиране на информация за картографиране"
 
 #. Template: AdminImportExport
 msgid "No map elements found."
-msgstr ""
+msgstr "Няма намерени елементи на картата."
 
 #. Template: AdminImportExport
 msgid "Add Mapping Element"
-msgstr ""
+msgstr "Добавете елемент за картографиране"
 
 #. Template: AdminImportExport
 msgid "Step 5 of 5 - Edit search information"
-msgstr ""
+msgstr "Стъпка 5 от 5 – Редактиране на информацията за търсене"
 
 #. Template: AdminImportExport
 msgid "Restrict export per search"
-msgstr ""
+msgstr "Ограничете експорта за всяко търсене"
 
 #. Template: AdminImportExport
 msgid "Import information"
-msgstr ""
+msgstr "Импортиране на информация"
 
 #. Template: AdminImportExport
 msgid "Source File"
-msgstr ""
+msgstr "Изходен файл"
 
 #. Template: AdminImportExport
 msgid "Import summary for %s"
-msgstr ""
+msgstr "Резюме за импортиране за %s"
 
 #. Template: AdminImportExport
 msgid "Records"
-msgstr ""
+msgstr "Записи"
 
 #. Template: AdminImportExport
 msgid "Success"
-msgstr ""
+msgstr "Успех"
 
 #. Template: AdminImportExport
 msgid "Duplicate names"
-msgstr ""
+msgstr "Дублирани имена"
 
 #. Template: AdminImportExport
 msgid "Last processed line number of import file"
-msgstr ""
+msgstr "Номер на последния обработен ред на файла за импортиране"
 
 #. Template: AdminImportExport
 msgid "Ok"
-msgstr ""
+msgstr "Да"
 
 #. Template: AdminImportExport
 msgid "Do you really want to delete this template item?"
-msgstr ""
+msgstr "Наистина ли искате да изтриете този шаблонен елемент?"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "No object backend found!"
-msgstr ""
+msgstr "Не е намерен бекенд на обект!"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "No format backend found!"
-msgstr ""
+msgstr "Не е намерен бекенд на формат!"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Template not found!"
-msgstr ""
+msgstr "Шаблонът не е намерен!"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Can't insert/update template!"
-msgstr ""
+msgstr "Не може да се вмъкне/актуализира шаблон!"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Needed TemplateID!"
-msgstr ""
+msgstr "Необходим ID на шаблон!"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Error occurred. Import impossible! See Syslog for details."
-msgstr ""
+msgstr "Възникна грешка. Вносът е невъзможен! Вижте Syslog за подробности."
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Error occurred. Export impossible! See Syslog for details."
-msgstr ""
+msgstr "Възникна грешка. Невъзможен експорт! Вижте Syslog за подробности."
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Template List"
-msgstr ""
+msgstr "Списък с шаблони"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "number"
-msgstr ""
+msgstr "номер"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "number bigger than zero"
-msgstr ""
+msgstr "число по-голямо от нула"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "integer"
-msgstr ""
+msgstr "цяло число"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "integer bigger than zero"
-msgstr ""
+msgstr "цяло число, по-голямо от нула"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Element required, please insert data"
-msgstr ""
+msgstr "Необходим е елемент, моля, въведете данни"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Invalid data, please insert a valid %s"
-msgstr ""
+msgstr "Невалидни данни, моля, въведете валиден %s"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Format not found!"
-msgstr ""
+msgstr "Форматът не е намерен!"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Column Separator"
-msgstr ""
+msgstr "Разделител на колони"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Tabulator (TAB)"
-msgstr ""
+msgstr "Разделител (TAB)"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Semicolon (;)"
-msgstr ""
+msgstr "Точка и запетая (;)"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Colon (:)"
-msgstr ""
+msgstr "Двоеточие (:)"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Dot (.)"
-msgstr ""
+msgstr "Точка (.)"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Comma (,)"
-msgstr ""
+msgstr "Запетая (,)"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Charset"
-msgstr ""
+msgstr "Кодировка"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Include Column Headers"
-msgstr ""
+msgstr "Включете заглавки на колони"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Column"
-msgstr ""
+msgstr "Колона"
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "Deleting template..."
-msgstr ""
+msgstr "Шаблонът се изтрива..."
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "There was an error deleting the template. Please check the logs for more information."
 msgstr ""
+"Възникна грешка при изтриването на шаблона. Моля, проверете регистрационните "
+"файлове за повече информация."
 
 #. JS File: ITSM.Admin.ImportExport
 msgid "Template was deleted successfully."
-msgstr ""
+msgstr "Шаблонът бе изтрит успешно."
 
 #. SysConfig
 msgid "Format backend module registration for the import/export module."
 msgstr ""
+"Форматирайте регистрацията за backend модул на модула за "
+"импортиране/експортиране."
 
 #. SysConfig
 msgid "Import and export object information."
-msgstr ""
+msgstr "Импортиране и експортиране на информация за обекта."
 
 #. SysConfig
 msgid "Import/Export"
-msgstr ""
-
+msgstr "Импорт/Експорт"
