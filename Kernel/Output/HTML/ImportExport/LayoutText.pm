@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,8 +21,8 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
-    'Kernel::System::Web::Request',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -31,7 +31,7 @@ Kernel::Output::HTML::ImportExport::LayoutText - layout backend module
 
 =head1 DESCRIPTION
 
-All layout functions for text elements
+All layout functions for text elements in Import/Export.
 
 =cut
 
@@ -39,7 +39,7 @@ All layout functions for text elements
 
 Create an object
 
-    $BackendObject = Kernel::Output::HTML::ImportExport::LayoutText->new(
+    my $BackendObject = Kernel::Output::HTML::ImportExport::LayoutText->new(
         %Param,
     );
 
@@ -49,10 +49,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 FormInputCreate()
@@ -99,9 +96,9 @@ sub FormInputCreate {
     }
 
     # prepare data
-    my $ID   = ( $Param{Prefix} || '' ) . ( $Param{Item}->{Key} );
-    my $Name = ( $Param{Prefix} || '' ) . ( $Param{Name} || $ID );
-    my $Class = ( $SizeClass || '' ) . ( $Param{Class} || '' );
+    my $ID    = ( $Param{Prefix} || '' ) . ( $Param{Item}->{Key} );
+    my $Name  = ( $Param{Prefix} || '' ) . ( $Param{Name}  || $ID );
+    my $Class = ( $SizeClass     || '' ) . ( $Param{Class} || '' );
 
     my $String = "<input id=\"$ID\" type=\"text\" name=\"$Name\" class=\"$Class\" ";
 
@@ -157,7 +154,7 @@ sub FormDataGet {
     if ( !$Param{Item} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need Item!'
+            Message  => 'Need Item!',
         );
         return;
     }

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -31,7 +31,7 @@ Kernel::Output::HTML::ImportExport::LayoutSelection - layout backend module
 
 =head1 DESCRIPTION
 
-All layout functions for selection elements
+All layout functions for selection elements in Import/Export.
 
 =cut
 
@@ -39,7 +39,7 @@ All layout functions for selection elements
 
 Create an object
 
-    $BackendObject = Kernel::Output::HTML::ImportExport::LayoutSelection->new(
+    my $BackendObject = Kernel::Output::HTML::ImportExport::LayoutSelection->new(
         %Param,
     );
 
@@ -49,10 +49,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 FormInputCreate()
@@ -75,7 +72,7 @@ sub FormInputCreate {
     if ( !$Param{Item} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need Item!'
+            Message  => 'Need Item!',
         );
         return;
     }
@@ -85,7 +82,7 @@ sub FormInputCreate {
     $Param{Value}  ||= $Param{Item}->{Input}->{ValueDefault};
 
     if ( $Param{Value} && $Param{Value} =~ m{ ##### }xms ) {
-        my @Values = split '#####', $Param{Value};
+        my @Values = split /#####/, $Param{Value};
         $Param{Value} = \@Values;
     }
 
@@ -124,7 +121,7 @@ sub FormDataGet {
     if ( !$Param{Item} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need Item!'
+            Message  => 'Need Item!',
         );
         return;
     }
