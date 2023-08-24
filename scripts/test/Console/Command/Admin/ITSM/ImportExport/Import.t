@@ -14,11 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-use File::Path qw(rmtree);
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
 
 our $Self;
 
@@ -171,6 +178,4 @@ $Self->True(
     "There are $NumConfigItemImported imported config items",
 );
 
-# cleanup is done by RestoreDatabase.
-
-1;
+done_testing;

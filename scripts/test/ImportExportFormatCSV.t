@@ -14,9 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
+
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
 
 our $Self;
 
@@ -38,7 +47,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # ------------------------------------------------------------ #
 
 # get home directory
-$Self->{Home} = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # add some test templates for later checks
 my @TemplateIDs;
@@ -1077,7 +1086,7 @@ for my $Test ( @{$ImportDataTests} ) {
 
         # read source file
         my $SourceContent = $MainObject->FileRead(
-            Location => $Self->{Home} . '/scripts/test/sample/ImportExport/' . $SourceFile,
+            Location => $Home . '/scripts/test/sample/ImportExport/' . $SourceFile,
             Result   => 'SCALAR',
             Mode     => 'binmode',
         );
@@ -1963,6 +1972,4 @@ continue {
     $TestCount++;
 }
 
-# cleanup is done by RestoreDatabase.
-
-1;
+done_testing;

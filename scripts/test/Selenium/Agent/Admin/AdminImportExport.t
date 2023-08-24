@@ -14,13 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-our $Self;
+# core modules
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new();
 
 $Selenium->RunTest(
     sub {
@@ -51,7 +59,7 @@ $Selenium->RunTest(
             ClassID => $LocationConfigItemID,
         );
 
-        $Self->True(
+        ok(
             $ConfigItemNumber,
             "ConfigItem number is created - $ConfigItemNumber",
         );
@@ -63,7 +71,7 @@ $Selenium->RunTest(
             UserID  => 1,
         );
 
-        $Self->True(
+        ok(
             $ConfigItemID,
             "ConfigItem 'Location' is created - ID $ConfigItemID",
         );
@@ -79,7 +87,7 @@ $Selenium->RunTest(
             ConfigItemID => $ConfigItemID,
         );
 
-        $Self->True(
+        ok(
             $VersionID,
             "Test version of the ConfigItem is created - ID $VersionID",
         );
@@ -233,8 +241,8 @@ $Selenium->RunTest(
 
         # Navigate to test created ConfigItem and verify it.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentITSMConfigItemZoom;ConfigItemID=$ConfigItemID");
-        $Self->True(
-            index( $Selenium->get_page_source(), $VersionName ) > -1,
+        $Selenium->content_contains(
+            $VersionName,
             "Test ConfigItem name $VersionName - found",
         );
 
@@ -256,15 +264,12 @@ $Selenium->RunTest(
         );
 
         # Check if ConfigItem is deleted.
-        $Self->False(
-            $ConfigItem,
-            "ConfigItem is deleted - ID $ConfigItemID",
-        );
+        ok( !$ConfigItem, "ConfigItem is deleted - ID $ConfigItemID" );
 
         # Refresh screen and verify that test ConfigItem does not exist anymore.
         $Selenium->VerifiedRefresh();
-        $Self->True(
-            index( $Selenium->get_page_source(), "Can\'t show item, no access rights for ConfigItem are given!" ) > -1,
+        $Selenium->content_contains(
+            "Can\'t show item, no access rights for ConfigItem are given!",
             "Test ConfigItem name $VersionName is not found",
         );
 
@@ -280,7 +285,7 @@ $Selenium->RunTest(
             Type       => 'Attachment',
             Permission => '664',
         );
-        $Self->True(
+        ok(
             $Success,
             "Export file $ExportFileName '$ExportLocation' is created",
         );
@@ -297,8 +302,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Start Import'][\@type='submit']")->VerifiedClick();
 
         # Check for expected outcome.
-        $Self->True(
-            index( $Selenium->get_page_source(), '(Created: 1)' ) > -1,
+        $Selenium->content_contains(
+            '(Created: 1)',
             "Import test ConfigItem - success",
         );
 
@@ -307,8 +312,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentITSMConfigItemZoom;ConfigItemID=$ImportedConfigItemID"
         );
-        $Self->True(
-            index( $Selenium->get_page_source(), $VersionName ) > -1,
+        $Selenium->content_contains(
+            $VersionName,
             "Test ConfigItem name $VersionName is found",
         );
 
@@ -330,8 +335,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( ElementMissing => [ "a.ImportExportDelete[data-id='$TemplateID']", 'css' ] );
 
         # Check if test template is deleted.
-        $Self->False(
-            $Selenium->execute_script(
+        ok(
+            !$Selenium->execute_script(
                 "return \$('a.ImportExportDelete[data-id*=\"$TemplateID\"]').length;"
             ),
             "Test template is deleted",
@@ -342,7 +347,7 @@ $Selenium->RunTest(
             ConfigItemID => $ImportedConfigItemID,
             UserID       => 1,
         );
-        $Self->True(
+        ok(
             $Success,
             "ConfigItem is deleted - ID $ImportedConfigItemID",
         );
@@ -352,7 +357,7 @@ $Selenium->RunTest(
             Location => $ExportLocation,
             Type     => 'Attachment',
         );
-        $Self->True(
+        ok(
             $Success,
             "Export file $ExportFileName is deleted",
         );
@@ -360,4 +365,4 @@ $Selenium->RunTest(
     }
 );
 
-1;
+done_testing;

@@ -14,11 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-our $Self;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
@@ -339,13 +346,13 @@ for my $Item ( @{$ItemData} ) {
 
         # check if template was added successfully or not
         if ( $Item->{AddGet} ) {
-            $Self->True(
+            ok(
                 $TemplateID,
                 "Test $TestCount: TemplateAdd() - TemplateKey: $TemplateID"
             );
         }
         else {
-            $Self->False( $TemplateID, "Test $TestCount: TemplateAdd()" );
+            ok( !$TemplateID, "Test $TestCount: TemplateAdd()" );
         }
     }
 
@@ -359,7 +366,7 @@ for my $Item ( @{$ItemData} ) {
 
         # check template data after creation of template
         for my $TemplateAttribute ( sort keys %{ $Item->{AddGet} } ) {
-            $Self->Is(
+            is(
                 $TemplateGet->{$TemplateAttribute} || '',
                 $Item->{AddGet}->{$TemplateAttribute} || '',
                 "Test $TestCount: TemplateGet() - $TemplateAttribute",
@@ -371,10 +378,8 @@ for my $Item ( @{$ItemData} ) {
 
         # check last template id variable
         if ( !$AddedTemplateIDs[-1] ) {
-            $Self->False(
-                1,
-                "Test $TestCount: NO LAST ITEM ID GIVEN. Please add a template first."
-            );
+            fail("Test $TestCount: NO LAST ITEM ID GIVEN. Please add a template first.");
+
             last TEMPLATE;
         }
 
@@ -386,14 +391,14 @@ for my $Item ( @{$ItemData} ) {
 
         # check if template was updated successfully or not
         if ( $Item->{UpdateGet} ) {
-            $Self->True(
+            ok(
                 $UpdateSucess,
                 "Test $TestCount: TemplateUpdate() - TemplateKey: $AddedTemplateIDs[-1]",
             );
         }
         else {
-            $Self->False(
-                $UpdateSucess,
+            ok(
+                !$UpdateSucess,
                 "Test $TestCount: TemplateUpdate()",
             );
         }
@@ -409,7 +414,7 @@ for my $Item ( @{$ItemData} ) {
 
         # check template data after update
         for my $TemplateAttribute ( sort keys %{ $Item->{UpdateGet} } ) {
-            $Self->Is(
+            is(
                 $TemplateGet->{$TemplateAttribute} || '',
                 $Item->{UpdateGet}->{$TemplateAttribute} || '',
                 "Test $TestCount: TemplateGet() - $TemplateAttribute",
@@ -428,7 +433,7 @@ continue {
 # ------------------------------------------------------------ #
 
 # list must be an empty array reference
-$Self->True(
+ok(
     ref $TemplateList1All eq 'ARRAY' && ref $TemplateList1Object eq 'ARRAY',
     "Test $TestCount: TemplateList() - array references",
 );
@@ -440,7 +445,7 @@ $TestCount++;
 # ------------------------------------------------------------ #
 
 # list must be an empty list
-$Self->True(
+ok(
     scalar @{$TemplateList1Object} eq 0,
     "Test $TestCount: TemplateList() - empty list",
 );
@@ -457,7 +462,7 @@ my $TemplateList2 = $ImportExportObject->TemplateList(
 );
 
 # list must be an array reference
-$Self->True(
+ok(
     ref $TemplateList2 eq 'ARRAY',
     "Test $TestCount: TemplateList() - array reference",
 );
@@ -465,7 +470,7 @@ $Self->True(
 my $TemplateListCount = scalar @{$TemplateList2} - scalar @{$TemplateList1All};
 
 # check correct number of new items
-$Self->True(
+ok(
     $TemplateListCount eq scalar @AddedTemplateIDs,
     "Test $TestCount: TemplateList() - correct number of new items",
 );
@@ -498,7 +503,7 @@ my $TemplateDelete1List2 = $ImportExportObject->TemplateList(
 );
 
 # list must have one element more
-$Self->True(
+ok(
     scalar @{$TemplateDelete1List1} eq ( scalar @{$TemplateDelete1List2} ) - 1,
     "Test $TestCount: TemplateDelete() - number of listed elements",
 );
@@ -510,7 +515,7 @@ my $TemplateDelete1 = $ImportExportObject->TemplateDelete(
 );
 
 # list must be successful
-$Self->True(
+ok(
     $TemplateDelete1,
     "Test $TestCount: TemplateDelete()",
 );
@@ -522,7 +527,7 @@ my $TemplateDelete1List3 = $ImportExportObject->TemplateList(
 );
 
 # list must have the original number of elements
-$Self->True(
+ok(
     scalar @{$TemplateDelete1List1} eq scalar @{$TemplateDelete1List3},
     "Test $TestCount: TemplateDelete() - number of listed elements",
 );
@@ -542,7 +547,7 @@ for my $TemplateID (@AddedTemplateIDs) {
     );
 
     # check success
-    $Self->True(
+    ok(
         $Success,
         "Test $TestCount: TemplateDelete() TemplateID $TemplateID",
     );
@@ -580,7 +585,7 @@ $ConfigObject->Set(
 my $ObjectList1 = $ImportExportObject->ObjectList();
 
 # list must be a hash reference
-$Self->True(
+ok(
     ref $ObjectList1 eq 'HASH',
     "Test $TestCount: ObjectList() - hash reference",
 );
@@ -598,7 +603,7 @@ for my $Key ( sort keys %{$ObjectList1} ) {
     delete $ObjectList1TestList->{$Key};
 }
 
-$Self->True(
+ok(
     !%{$ObjectList1TestList},
     "Test $TestCount: ObjectList() - content is valid",
 );
@@ -641,7 +646,7 @@ $ConfigObject->Set(
 my $FormatList1 = $ImportExportObject->FormatList();
 
 # list must be a hash reference
-$Self->True(
+ok(
     ref $FormatList1 eq 'HASH',
     "Test $TestCount: FormatList() - hash reference",
 );
@@ -659,7 +664,7 @@ for my $Key ( sort keys %{$FormatList1} ) {
     delete $FormatList1TestList->{$Key};
 }
 
-$Self->True(
+ok(
     !%{$FormatList1TestList},
     "Test $TestCount: FormatList() - content is valid",
 );
@@ -670,4 +675,4 @@ $ConfigObject->Set(
     Value => $FormatListOrg,
 );
 
-1;
+done_testing;
