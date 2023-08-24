@@ -268,7 +268,7 @@ sub TemplateAdd {
     if ($NoAdd) {
         $LogObject->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Can't add new template! Template with same name already exists in this object.",
         );
         return;
@@ -281,7 +281,7 @@ sub TemplateAdd {
             . 'create_time, create_by, change_time, change_by) VALUES '
             . '(?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Object}, \$Param{Format}, \$Param{Name}, \$Param{ValidID},
+            \$Param{Object},  \$Param{Format}, \$Param{Name}, \$Param{ValidID},
             \$Param{Comment}, \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -387,7 +387,7 @@ sub TemplateUpdate {
     if ( !$Update ) {
         $LogObject->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Can't update template! Template with same name already exists in this object.",
         );
         return;
@@ -403,7 +403,7 @@ sub TemplateUpdate {
             . 'change_time = current_timestamp, change_by = ? '
             . 'WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{Name},   \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{TemplateID},
         ],
     );
@@ -2323,7 +2323,7 @@ sub Import {
     # log result
     $LogObject->Log(
         Priority => 'notice',
-        Message =>
+        Message  =>
             "Import of $Result{Counter} $Result{Object} records: "
             . "$Result{Failed} failed, $Result{Success} succeeded",
     );
@@ -2331,7 +2331,7 @@ sub Import {
         my $Count = $Result{RetCode}->{$RetCode} || 0;
         $LogObject->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "Import of $Result{Counter} $Result{Object} records: $Count $RetCode",
         );
     }
