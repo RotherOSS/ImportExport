@@ -21,14 +21,13 @@ use utf8;
 
 # core modules
 use File::Path qw(mkpath rmtree);
+use Path::Class qw(dir file);
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::ITSM::ImportExport::Export');
@@ -41,12 +40,15 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $RandomID = $Helper->GetRandomID();
+ok( $RandomID, 'got a random ID' );
+diag("RandomID: $RandomID");
 
 # test command without --template-number option
-my $ExitCode = $CommandObject->Execute();
+my $ExitCode = $CommandObject->Execute;
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "No --template-number  - exit code",
@@ -57,55 +59,46 @@ my $ConfigItemDataRef = $GeneralCatalogObject->ItemGet(
     Class => 'ITSM::ConfigItem::Class',
     Name  => 'Hardware',
 );
+ref_ok( $ConfigItemDataRef, 'HASH', 'ConfigItemDataRef' );
 my $HardwareConfigItemID = $ConfigItemDataRef->{ItemID};
+ok( $HardwareConfigItemID, 'got an ID for config item class Hardware' );
 
 # get 'Production' deployment state IDs
 my $ProductionDeplStateDataRef = $GeneralCatalogObject->ItemGet(
     Class => 'ITSM::ConfigItem::DeploymentState',
     Name  => 'Production',
 );
+ref_ok( $ProductionDeplStateDataRef, 'HASH' );
 my $ProductionDeplStateID = $ProductionDeplStateDataRef->{ItemID};
-
-my @ConfigItemIDs;
+ok( $ProductionDeplStateID, 'got an ID for deployment state Production' );
 
 # add test config items
-for ( 1 .. 10 ) {
+my @ConfigItemIDs;
+subtest 'create sample config items' => sub {
+    for my $Count ( 1 .. 10 ) {
 
-    # create ConfigItem number
-    my $ConfigItemNumber = $ConfigItemObject->ConfigItemNumberCreate(
-        Type    => $Kernel::OM->Get('Kernel::Config')->Get('ITSMConfigItem::NumberGenerator'),
-        ClassID => $HardwareConfigItemID,
-    );
+        # create ConfigItem number
+        my $ConfigItemNumber = $ConfigItemObject->ConfigItemNumberCreate(
+            Type    => $Kernel::OM->Get('Kernel::Config')->Get('ITSMConfigItem::NumberGenerator'),
+            ClassID => $HardwareConfigItemID,
+        );
+        diag("ConfigItemNumber: '$ConfigItemNumber'");
+        ok( $ConfigItemNumber, 'got a config item number' );
 
-    # add test ConfigItem
-    my $ConfigItemID = $ConfigItemObject->ConfigItemAdd(
-        Number  => $ConfigItemNumber,
-        ClassID => $HardwareConfigItemID,
-        UserID  => 1,
-    );
+        # add sample ConfigItem
+        my $ConfigItemID = $ConfigItemObject->ConfigItemAdd(
+            Name        => join( '_', 'TestConfigItem🌞', $RandomID, $Count ),
+            Number      => $ConfigItemNumber,
+            ClassID     => $HardwareConfigItemID,
+            DeplStateID => $ProductionDeplStateID,
+            InciStateID => 1,
+            UserID      => 1,
+        );
+        ok( $ConfigItemID, "Config item is created - $ConfigItemID" );
 
-    $Self->True(
-        $ConfigItemID,
-        "Config item is created - $ConfigItemID",
-    );
-
-    my $ConfigItemName = 'TestConfigItem' . $Helper->GetRandomID();
-    my $VersionID      = $ConfigItemObject->VersionAdd(
-        Name         => $ConfigItemName,
-        DefinitionID => 1,
-        DeplStateID  => $ProductionDeplStateID,
-        InciStateID  => 1,
-        UserID       => 1,
-        ConfigItemID => $ConfigItemID,
-    );
-
-    $Self->True(
-        $VersionID,
-        "Version for config item $ConfigItemID is created - $ConfigItemName",
-    );
-
-    push @ConfigItemIDs, $ConfigItemID;
-}
+        push @ConfigItemIDs, $ConfigItemID;
+    }
+};
 
 # get ImportExport object
 my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
@@ -114,32 +107,26 @@ my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
 my $TemplateID = $ImportExportObject->TemplateAdd(
     Object  => 'ITSMConfigItem',
     Format  => 'CSV',
-    Name    => 'Template' . $Helper->GetRandomID(),
+    Name    => 'Template' . $RandomID,
     ValidID => 1,
     Comment => 'Comment',
     UserID  => 1,
 );
-
-$Self->True(
-    $TemplateID,
-    "Import/Export template is created - $TemplateID",
-);
+ok( $TemplateID, "Import/Export template is created" );
+diag("TemplateID: $TemplateID");
 
 # get object data for test template
 my %TemplateRef = (
     'ClassID'  => $HardwareConfigItemID,
     'CountMax' => 10,
 );
-my $Success = $ImportExportObject->ObjectDataSave(
+my $ObjectDataSaveSuccess = $ImportExportObject->ObjectDataSave(
     TemplateID => $TemplateID,
     ObjectData => \%TemplateRef,
     UserID     => 1,
 );
 
-$Self->True(
-    $Success,
-    "ObjectData for test template is added",
-);
+ok( $ObjectDataSaveSuccess, "ObjectData for test template is added" );
 
 # add the format data of the test template
 my %FormatData = (
@@ -147,26 +134,23 @@ my %FormatData = (
     ColumnSeparator      => 'Comma',
     IncludeColumnHeaders => 1,
 );
-$Success = $ImportExportObject->FormatDataSave(
+my $FormatDataSaveSuccess = $ImportExportObject->FormatDataSave(
     TemplateID => $TemplateID,
     FormatData => \%FormatData,
     UserID     => 1,
 );
-
-$Self->True(
-    $Success,
-    "FormatData for test template is added",
-);
+ok( $FormatDataSaveSuccess, "format data for test template is added" );
 
 # save the search data of a template
 my %SearchData = (
     Name => 'TestConfigItem*',
 );
-$Success = $ImportExportObject->SearchDataSave(
+my $SearchDataSaveSuccess = $ImportExportObject->SearchDataSave(
     TemplateID => $TemplateID,
     SearchData => \%SearchData,
     UserID     => 1,
 );
+ok( $SearchDataSaveSuccess, "search data for test template is added" );
 
 # add mapping data for test template
 for my $ObjectDataValue (qw( Name DeplState InciState )) {
@@ -183,52 +167,67 @@ for my $ObjectDataValue (qw( Name DeplState InciState )) {
         UserID            => 1,
     );
 
-    $Self->True(
-        $Success,
-        "ObjectData for test template is mapped - $ObjectDataValue",
-    );
+    ok( $Success, "ObjectData for test template is mapped - $ObjectDataValue" );
 }
 
 # make directory for export file
-my $DestinationPath = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/tmp/ImportExport/";
-mkpath( [$DestinationPath], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+my $Home            = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $TempDir         = $Kernel::OM->Get('Kernel::Config')->Get('TempDir');
+my $DestinationPath = join '/', $TempDir, 'ImportExport';
+my $ExportFilename  = "$DestinationPath/TemplateExport_$RandomID.csv";
+ok( !-f $ExportFilename, 'no leftover export file' );
+dir($DestinationPath)->mkpath;
+ok( -d $DestinationPath, 'export dir was created' );
 
 # test command with wrong template number
 $ExitCode = $CommandObject->Execute(
-    '--template-number',
-    $Helper->GetRandomNumber(),
-    $DestinationPath . 'TemplateExport.csv'
+    '--template-number', $Helper->GetRandomNumber,
+    $ExportFilename
 );
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "Command with wrong template number - exit code",
 );
+ok( !-e $ExportFilename, 'no export file was generated' );
 
 # test command without destination argument
 $ExitCode = $CommandObject->Execute( '--template-number', $TemplateID );
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "No destination argument - exit code",
 );
+ok( !-e $ExportFilename, 'no export file was generated' );
 
 # test command with --template-number option and destination argument
-$ExitCode = $CommandObject->Execute( '--template-number', $TemplateID, $DestinationPath . 'TemplateExport.csv' );
+$ExitCode = $CommandObject->Execute( '--template-number', $TemplateID, $ExportFilename );
 
-$Self->Is(
+is(
     $ExitCode,
     0,
     "Option - --template-number option and destination argument",
 );
+ok( -e $ExportFilename, 'export file was finally generated' );
+
+# Content of the exported file, with considering the random id in the config item name
+{
+    my $ExpectedResultFile = dir($Home)->file('scripts/test/sample/ImportExport/TemplateExport.csv');
+    my @ExpectedLines      = map {s/<<RANDOM_ID>>/$RandomID/r} $ExpectedResultFile->slurp;
+    is( scalar @ExpectedLines, 11, 'got some expected content' );
+    is(
+        [ file($ExportFilename)->slurp ],
+        \@ExpectedLines,
+        "Content of $ExportFilename"
+    );
+}
 
 # remove test destination path
-$Success = rmtree( [$DestinationPath] );
-$Self->True(
-    $Success,
-    "Test directory deleted - $DestinationPath",
-);
+diag("deleting $DestinationPath");
+
+rmtree( [$DestinationPath] );
+ok( !-d $DestinationPath, 'test directory deleted' );
 
 done_testing;
