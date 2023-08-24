@@ -209,28 +209,7 @@
 
     ]]></CodeInstall>
     <!-- It is IMPORTANT that this CodeUpgrade (Version="2.0.3") comes BEFORE the regular CodeUpgrade block without any version number! -->
-    <CodeUpgrade Type="post" Version="2.0.3"><![CDATA[
 
-        # create the package name
-        my $CodeModule = 'var::packagesetup::' . $Param{Structure}->{Name}->{Content};
-
-        # discard internally stored object, so that the next access to object creates them newly
-        $Kernel::OM->ObjectsDiscard(
-            Objects            => [$CodeModule],
-            ForcePackageReload => 1,
-        );
-
-        $Kernel::OM->Get($CodeModule)->CodeUpgradeFromBefore_2_0_3();
-
-    ]]></CodeUpgrade>
-    <CodeUpgrade Type="post" Version="4.0.91"><![CDATA[
-
-        # create the package name
-        my $CodeModule = 'var::packagesetup::' . $Param{Structure}->{Name}->{Content};
-
-        $Kernel::OM->Get($CodeModule)->CodeUpgradeFromLowerThan_4_0_91();
-
-    ]]></CodeUpgrade>
     <IntroUninstall Type="pre" Title="Uninstallation Information" Lang="en"><![CDATA[
 
         </br>
