@@ -77,10 +77,9 @@ sub FormInputCreate {
 
     $Param{Prefix} ||= '';
 
-    my $Checked = $Param{Value} ? 'checked="checked"' : '';
+    my $Checked = $Param{Value} ? 'checked' : '';
 
-    return
-        qq{<input id="$Param{Prefix}$Param{Item}->{Key}" type="checkbox" name="$Param{Prefix}$Param{Item}->{Key}" $Checked />};
+    return qq{<input id="$Param{Prefix}$Param{Item}->{Key}" type="checkbox" name="$Param{Prefix}$Param{Item}->{Key}" $Checked >};
 }
 
 =head2 FormDataGet()
