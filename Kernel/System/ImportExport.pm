@@ -531,13 +531,12 @@ sub ObjectList {
     return unless $ModuleList;
     return unless ref $ModuleList eq 'HASH';
 
-    # create the object list
-    my $ObjectList = {};
-    for my $Module ( sort keys %{$ModuleList} ) {
-        $ObjectList->{$Module} = $ModuleList->{$Module}->{Name};
-    }
+    # create the object list, may be empty
+    my %Key2Name =
+        map { $_ => $ModuleList->{$_}->{Name} }
+        keys $ModuleList->%*;
 
-    return $ObjectList;
+    return \%Key2Name;
 }
 
 =head2 ObjectAttributesGet()
@@ -787,13 +786,12 @@ sub FormatList {
     return unless $ModuleList;
     return unless ref $ModuleList eq 'HASH';
 
-    # create the format list
-    my $FormatList = {};
-    for my $Module ( sort keys %{$ModuleList} ) {
-        $FormatList->{$Module} = $ModuleList->{$Module}->{Name};
-    }
+    # create the format list, may be empty
+    my %Key2Name =
+        map { $_ => $ModuleList->{$_}->{Name} }
+        keys $ModuleList->%*;
 
-    return $FormatList;
+    return \%Key2Name;
 }
 
 =head2 FormatAttributesGet()
