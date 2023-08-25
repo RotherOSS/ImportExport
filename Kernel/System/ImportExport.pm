@@ -1630,14 +1630,6 @@ END_SQL
         Bind => [ \$Param{MappingID} ],
     );
 
-    # The content of data_key = 'Key' might also encode the index,
-    # so we need some more processing
-    if ( $MappingObjectData{Key} ) {
-
-        # TODO: support Set, deeper nestings are disregarded for now
-        @MappingObjectData{qw(Key IndexValue)} = split /::/, $MappingObjectData{Key};
-    }
-
     return \%MappingObjectData;
 }
 
