@@ -16,8 +16,17 @@
 
 package Kernel::Output::HTML::ImportExport::LayoutSelection;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

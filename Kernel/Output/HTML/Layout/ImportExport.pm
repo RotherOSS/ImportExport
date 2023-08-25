@@ -16,14 +16,17 @@
 
 package Kernel::Output::HTML::Layout::ImportExport;
 
+use v5.25;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::Output::HTML::Layout::ImportExport
+Kernel::Output::HTML::Layout::ImportExport - HTML generation methods for ImportObject
 
 =cut
 

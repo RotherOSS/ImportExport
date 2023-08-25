@@ -570,7 +570,7 @@ sub Run {
                 );
             }
 
-            for my $Item ( @{$MappingFormatAttributes} ) {
+            for my $Item ( $MappingFormatAttributes->@* ) {
 
                 # output column counter
                 $LayoutObject->Block(
@@ -1526,7 +1526,7 @@ sub _MaskTemplateEdit1 {
         );
     }
 
-    # output the complet HTML
+    # output the complete HTML
     return join '',
         $LayoutObject->Header,
         $LayoutObject->NavigationBar,
@@ -1706,7 +1706,7 @@ sub _MaskTemplateEdit2 {
         );
     }
 
-    # output the complet HTML
+    # output the complete HTML
     return join '',
         $LayoutObject->Header,
         $LayoutObject->NavigationBar,
