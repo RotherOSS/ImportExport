@@ -52,12 +52,13 @@ sub Run {
     if ( $Self->{Subaction} eq 'TemplateEdit1' ) {
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         if ( !$ObjectList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No object backend found!'),
             );
+
             return;
         }
 
@@ -172,6 +173,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Can\'t insert/update template!'),
             );
+
             return;
         }
 
@@ -187,22 +189,24 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'TemplateEdit2' ) {
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         if ( !$ObjectList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No object backend found!'),
             );
+
             return;
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -213,6 +217,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Needed TemplateID!'),
             );
+
             return;
         }
 
@@ -294,22 +299,24 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'TemplateEdit3' ) {
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         if ( !$ObjectList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No object backend found!'),
             );
+
             return;
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -320,6 +327,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Needed TemplateID!'),
             );
+
             return;
         }
 
@@ -388,22 +396,24 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'TemplateEdit4' ) {
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         if ( !$ObjectList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No object backend found!'),
             );
+
             return;
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -421,6 +431,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Template not found!'),
             );
+
             return;
         }
 
@@ -472,7 +483,7 @@ sub Run {
             },
         );
 
-        # get mapping data list
+        # get as list of mapping IDs for this template
         my $MappingList = $ImportExportObject->MappingList(
             TemplateID => $TemplateData->{TemplateID},
             UserID     => $Self->{UserID},
@@ -541,7 +552,7 @@ sub Run {
                 UserID    => $Self->{UserID},
             );
 
-            for my $Item ( @{$MappingObjectAttributes} ) {
+            for my $Item ( $MappingObjectAttributes->@* ) {
 
                 # create form input
                 my $InputString = $LayoutObject->ImportExportFormInputCreate(
@@ -684,7 +695,7 @@ sub Run {
 
             # get object attribute values
             my %ObjectAttributeValues;
-            for my $Item ( @{$MappingObjectAttributes} ) {
+            for my $Item ( $MappingObjectAttributes->@* ) {
 
                 # get object form data
                 $ObjectAttributeValues{ $Item->{Key} } = $LayoutObject->ImportExportFormDataGet(
@@ -777,22 +788,24 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'TemplateEdit5' ) {
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         if ( !$ObjectList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No object backend found!'),
             );
+
             return;
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -810,6 +823,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Template not found!'),
             );
+
             return;
         }
 
@@ -1010,22 +1024,24 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ImportInformation' ) {
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         if ( !$ObjectList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No object backend found!'),
             );
+
             return;
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -1043,6 +1059,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Template not found!'),
             );
+
             return;
         }
 
@@ -1117,6 +1134,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Template not found!'),
             );
+
             return;
         }
 
@@ -1139,6 +1157,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Error occurred. Import impossible! See Syslog for details.'),
             );
+
             return;
         }
 
@@ -1227,6 +1246,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Template not found!'),
             );
+
             return;
         }
 
@@ -1240,6 +1260,7 @@ sub Run {
             $LayoutObject->FatalError(
                 Message => Translatable('Error occurred. Export impossible! See Syslog for details.'),
             );
+
             return;
         }
 
@@ -1259,7 +1280,7 @@ sub Run {
     else {
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         # show a note that the user needs to insatll any module that provides an import/export backend.
         if ( !$ObjectList ) {
@@ -1286,12 +1307,13 @@ sub Run {
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -1447,22 +1469,24 @@ sub _MaskTemplateEdit1 {
         my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
 
         # get object list
-        my $ObjectList = $ImportExportObject->ObjectList();
+        my $ObjectList = $ImportExportObject->ObjectList;
 
         if ( !$ObjectList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No object backend found!'),
             );
+
             return;
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -1541,6 +1565,7 @@ sub _MaskTemplateEdit2 {
         $LayoutObject->FatalError(
             Message => Translatable('Needed TemplateID!'),
         );
+
         return;
     }
 
@@ -1558,6 +1583,7 @@ sub _MaskTemplateEdit2 {
         $LayoutObject->FatalError(
             Message => Translatable('Template not found!'),
         );
+
         return;
     }
 
@@ -1715,6 +1741,7 @@ sub _MaskTemplateEdit3 {
         $LayoutObject->FatalError(
             Message => Translatable('Template not found!'),
         );
+
         return;
     }
 
@@ -1732,6 +1759,7 @@ sub _MaskTemplateEdit3 {
         $LayoutObject->FatalError(
             Message => Translatable('Template not found!'),
         );
+
         return;
     }
 
@@ -1783,6 +1811,7 @@ sub _MaskTemplateEdit3 {
         $LayoutObject->FatalError(
             Message => Translatable('Format not found!'),
         );
+
         return;
     }
 

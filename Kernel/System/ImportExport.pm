@@ -16,8 +16,17 @@
 
 package Kernel::System::ImportExport;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -53,10 +62,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 TemplateList()
@@ -80,6 +86,7 @@ sub TemplateList {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
@@ -151,6 +158,7 @@ sub TemplateGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -221,6 +229,7 @@ sub TemplateAdd {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -271,11 +280,12 @@ sub TemplateAdd {
             Message  =>
                 "Can't add new template! Template with same name already exists in this object.",
         );
+
         return;
     }
 
     # insert new template
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'INSERT INTO imexport_template '
             . '(imexport_object, imexport_format, name, valid_id, comments, '
             . 'create_time, create_by, change_time, change_by) VALUES '
@@ -329,6 +339,7 @@ sub TemplateUpdate {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -366,6 +377,7 @@ sub TemplateUpdate {
             Priority => 'error',
             Message  => "Can't update template because it hasn't been found!",
         );
+
         return;
     }
 
@@ -390,6 +402,7 @@ sub TemplateUpdate {
             Message  =>
                 "Can't update template! Template with same name already exists in this object.",
         );
+
         return;
     }
 
@@ -440,6 +453,7 @@ sub TemplateDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -452,6 +466,7 @@ sub TemplateDelete {
             Priority => 'error',
             Message  => 'TemplateID must be an array reference or a string!',
         );
+
         return;
     }
 
@@ -499,20 +514,22 @@ sub TemplateDelete {
 
 =head2 ObjectList()
 
-Return a list of available objects as hash reference
+Return a list of available objects as hash reference.
 
     my $ObjectList = $ImportExportObject->ObjectList();
+
+Return an empty list when there is no, or an incorrect, setting in the SysConfig.
 
 =cut
 
 sub ObjectList {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
-    # get config
+    # get the backend registrations which have been added by other OTOBO packages
     my $ModuleList = $Kernel::OM->Get('Kernel::Config')->Get('ImportExport::ObjectBackendRegistration');
 
-    return if !$ModuleList;
-    return if ref $ModuleList ne 'HASH';
+    return unless $ModuleList;
+    return unless ref $ModuleList eq 'HASH';
 
     # create the object list
     my $ObjectList = {};
@@ -547,6 +564,7 @@ sub ObjectAttributesGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -563,6 +581,7 @@ sub ObjectAttributesGet {
             Priority => 'error',
             Message  => "Template with ID $Param{TemplateID} is incomplete!",
         );
+
         return;
     }
 
@@ -571,7 +590,7 @@ sub ObjectAttributesGet {
         'Kernel::System::ImportExport::ObjectBackend::' . $TemplateData->{Object}
     );
 
-    return if !$Backend;
+    return unless $Backend;
 
     # get an attribute list of the object
     my $Attributes = $Backend->ObjectAttributesGet(
@@ -602,6 +621,7 @@ sub ObjectDataGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -649,6 +669,7 @@ sub ObjectDataSave {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -658,6 +679,7 @@ sub ObjectDataSave {
             Priority => 'error',
             Message  => 'ObjectData must be a hash reference!',
         );
+
         return;
     }
 
@@ -718,6 +740,7 @@ sub ObjectDataDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -730,6 +753,7 @@ sub ObjectDataDelete {
             Priority => 'error',
             Message  => 'TemplateID must be an array reference or a string!',
         );
+
         return;
     }
 
@@ -748,7 +772,7 @@ sub ObjectDataDelete {
 
 =head2 FormatList()
 
-Return a list of available formats as hash reference
+Return a list of available formats as hash reference.
 
     my $FormatList = $ImportExportObject->FormatList();
 
@@ -757,11 +781,11 @@ Return a list of available formats as hash reference
 sub FormatList {
     my ( $Self, %Param ) = @_;
 
-    # get config
+    # get the registered formatting backends, e.g. for CSV
     my $ModuleList = $Kernel::OM->Get('Kernel::Config')->Get('ImportExport::FormatBackendRegistration');
 
-    return if !$ModuleList;
-    return if ref $ModuleList ne 'HASH';
+    return unless $ModuleList;
+    return unless ref $ModuleList eq 'HASH';
 
     # create the format list
     my $FormatList = {};
@@ -796,6 +820,7 @@ sub FormatAttributesGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -812,6 +837,7 @@ sub FormatAttributesGet {
             Priority => 'error',
             Message  => "Template with ID $Param{TemplateID} is incomplete!",
         );
+
         return;
     }
 
@@ -820,7 +846,7 @@ sub FormatAttributesGet {
         'Kernel::System::ImportExport::FormatBackend::' . $TemplateData->{Format}
     );
 
-    return if !$Backend;
+    return unless $Backend;
 
     # get an attribute list of the format
     my $Attributes = $Backend->FormatAttributesGet(
@@ -851,6 +877,7 @@ sub FormatDataGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -898,6 +925,7 @@ sub FormatDataSave {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -907,6 +935,7 @@ sub FormatDataSave {
             Priority => 'error',
             Message  => 'FormatData must be a hash reference!',
         );
+
         return;
     }
 
@@ -966,6 +995,7 @@ sub FormatDataDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -978,6 +1008,7 @@ sub FormatDataDelete {
             Priority => 'error',
             Message  => 'TemplateID must be an array reference or a string!',
         );
+
         return;
     }
 
@@ -996,9 +1027,9 @@ sub FormatDataDelete {
 
 =head2 MappingList()
 
-Return a list of mapping data ids sorted by position as array reference
+Return a list of mapping ids sorted by position as array reference
 
-    my $MappingList = $ImportExportObject->MappingList(
+    my $MappingIDs = $ImportExportObject->MappingList(
         TemplateID => 123,
         UserID     => 1,
     );
@@ -1015,11 +1046,12 @@ sub MappingList {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
-    # get DB object
+    # ask database
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # ask database
@@ -1058,6 +1090,7 @@ sub MappingAdd {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1133,6 +1166,7 @@ sub MappingDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1171,12 +1205,12 @@ sub MappingDelete {
     else {
 
         # get mapping list
-        my $MappingList = $Self->MappingList(
+        my $MappingIDs = $Self->MappingList(
             TemplateID => $Param{TemplateID},
             UserID     => $Param{UserID},
         );
 
-        for my $MappingID ( @{$MappingList} ) {
+        for my $MappingID ( $MappingIDs->@* ) {
 
             # delete existing object mapping data
             $Self->MappingObjectDataDelete(
@@ -1221,17 +1255,18 @@ sub MappingUp {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
     # get mapping data list
-    my $MappingList = $Self->MappingList(
+    my $MappingIDs = $Self->MappingList(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
 
-    return 1 if $Param{MappingID} == $MappingList->[0];
+    return 1 if $Param{MappingID} == $MappingIDs->[0];
 
     # get DB object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -1287,17 +1322,18 @@ sub MappingDown {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
     # get mapping data list
-    my $MappingList = $Self->MappingList(
+    my $MappingIDs = $Self->MappingList(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
 
-    return 1 if $Param{MappingID} == $MappingList->[-1];
+    return 1 if $Param{MappingID} == $MappingIDs->[-1];
 
     # get DB object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -1350,19 +1386,20 @@ sub MappingPositionRebuild {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
     # get mapping data list
-    my $MappingList = $Self->MappingList(
+    my $MappingIDs = $Self->MappingList(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
 
     # update position
     my $Counter = 0;
-    for my $MappingID ( @{$MappingList} ) {
+    for my $MappingID ( $MappingIDs->@* ) {
         $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => 'UPDATE imexport_mapping SET position = ? WHERE id = ?',
             Bind => [ \$Counter, \$MappingID ],
@@ -1397,6 +1434,7 @@ sub MappingObjectAttributesGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1413,6 +1451,7 @@ sub MappingObjectAttributesGet {
             Priority => 'error',
             Message  => "Template with ID $Param{TemplateID} is incomplete!",
         );
+
         return;
     }
 
@@ -1421,7 +1460,7 @@ sub MappingObjectAttributesGet {
         'Kernel::System::ImportExport::ObjectBackend::' . $TemplateData->{Object}
     );
 
-    return if !$Backend;
+    return unless $Backend;
 
     # get an attribute list of the object
     my $Attributes = $Backend->MappingObjectAttributesGet(
@@ -1463,6 +1502,7 @@ sub MappingObjectDataDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1475,6 +1515,7 @@ sub MappingObjectDataDelete {
             Priority => 'error',
             Message  => 'MappingID must be an array reference or a string!',
         );
+
         return;
     }
 
@@ -1516,6 +1557,7 @@ sub MappingObjectDataSave {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1525,6 +1567,7 @@ sub MappingObjectDataSave {
             Priority => 'error',
             Message  => 'MappingObjectData must be a hash reference!',
         );
+
         return;
     }
 
@@ -1555,12 +1598,16 @@ sub MappingObjectDataSave {
 
 =head2 MappingObjectDataGet()
 
-Get the object data of a mapping
+gets the object data of a mapping.
 
-    my $ObjectDataRef = $ImportExportObject->MappingObjectDataGet(
+    my $MappingObjectData = $ImportExportObject->MappingObjectDataGet(
         MappingID => 123,
         UserID    => 1,
     );
+
+Returns:
+
+    $MappingObjectData =
 
 =cut
 
@@ -1574,6 +1621,7 @@ sub MappingObjectDataGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1620,6 +1668,7 @@ sub MappingFormatAttributesGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1636,6 +1685,7 @@ sub MappingFormatAttributesGet {
             Priority => 'error',
             Message  => "Template with ID $Param{TemplateID} is incomplete!",
         );
+
         return;
     }
 
@@ -1644,7 +1694,7 @@ sub MappingFormatAttributesGet {
         'Kernel::System::ImportExport::FormatBackend::' . $TemplateData->{Format}
     );
 
-    return if !$Backend;
+    return unless $Backend;
 
     # get an attribute list of the format
     my $Attributes = $Backend->MappingFormatAttributesGet(
@@ -1685,6 +1735,7 @@ sub MappingFormatDataDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1697,6 +1748,7 @@ sub MappingFormatDataDelete {
             Priority => 'error',
             Message  => 'MappingID must be an array reference or a string!',
         );
+
         return;
     }
 
@@ -1738,6 +1790,7 @@ sub MappingFormatDataSave {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1747,6 +1800,7 @@ sub MappingFormatDataSave {
             Priority => 'error',
             Message  => 'MappingFormatData must be a hash reference!',
         );
+
         return;
     }
 
@@ -1796,6 +1850,7 @@ sub MappingFormatDataGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1842,6 +1897,7 @@ sub SearchAttributesGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1858,6 +1914,7 @@ sub SearchAttributesGet {
             Priority => 'error',
             Message  => "Template with ID $Param{TemplateID} is incomplete!",
         );
+
         return;
     }
 
@@ -1866,7 +1923,7 @@ sub SearchAttributesGet {
         'Kernel::System::ImportExport::ObjectBackend::' . $TemplateData->{Object}
     );
 
-    return if !$Backend;
+    return unless $Backend;
 
     # get an search attribute list of an object
     my $Attributes = $Backend->SearchAttributesGet(
@@ -1898,6 +1955,7 @@ sub SearchDataGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1945,6 +2003,7 @@ sub SearchDataSave {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1954,6 +2013,7 @@ sub SearchDataSave {
             Priority => 'error',
             Message  => 'SearchData must be a hash reference!',
         );
+
         return;
     }
 
@@ -2014,6 +2074,7 @@ sub SearchDataDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2026,6 +2087,7 @@ sub SearchDataDelete {
             Priority => 'error',
             Message  => 'TemplateID must be an array reference or a string!',
         );
+
         return;
     }
 
@@ -2077,6 +2139,7 @@ sub Export {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2093,6 +2156,7 @@ sub Export {
             Priority => 'error',
             Message  => "Template with ID $Param{TemplateID} is incomplete!",
         );
+
         return;
     }
 
@@ -2101,14 +2165,14 @@ sub Export {
         'Kernel::System::ImportExport::ObjectBackend::' . $TemplateData->{Object}
     );
 
-    return if !$ObjectBackend;
+    return unless $ObjectBackend;
 
     # load format backend
     my $FormatBackend = $Kernel::OM->Get(
         'Kernel::System::ImportExport::FormatBackend::' . $TemplateData->{Format}
     );
 
-    return if !$FormatBackend;
+    return unless $FormatBackend;
 
     # get export data
     my $ExportData = $ObjectBackend->ExportDataGet(
@@ -2135,14 +2199,14 @@ sub Export {
         my %AttributeLookup = map { $_->{Key} => $_->{Value} } @{ $MappingObjectAttributes->[0]->{Input}->{Data} };
 
         # get mapping data list
-        my $MappingList = $Self->MappingList(
+        my $MappingIDs = $Self->MappingList(
             TemplateID => $Param{TemplateID},
             UserID     => $Param{UserID},
         );
 
         # get the column names
         my @ColumnNames;
-        for my $MappingID ( @{$MappingList} ) {
+        for my $MappingID ( $MappingIDs->@* ) {
 
             # get mapping object data
             my $MappingObjectData = $Self->MappingObjectDataGet(
@@ -2232,6 +2296,7 @@ sub Import {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2248,6 +2313,7 @@ sub Import {
             Priority => 'error',
             Message  => "Template with ID $Param{TemplateID} is incomplete!",
         );
+
         return;
     }
 
@@ -2256,14 +2322,14 @@ sub Import {
         'Kernel::System::ImportExport::ObjectBackend::' . $TemplateData->{Object}
     );
 
-    return if !$ObjectBackend;
+    return unless $ObjectBackend;
 
     # load format backend
     my $FormatBackend = $Kernel::OM->Get(
         'Kernel::System::ImportExport::FormatBackend::' . $TemplateData->{Format}
     );
 
-    return if !$FormatBackend;
+    return unless $FormatBackend;
 
     # get import data
     my $ImportData = $FormatBackend->ImportDataGet(
@@ -2272,7 +2338,7 @@ sub Import {
         UserID        => $Param{UserID},
     );
 
-    return if !$ImportData;
+    return unless $ImportData;
 
     # get format data
     my $FormatData = $Self->FormatDataGet(
