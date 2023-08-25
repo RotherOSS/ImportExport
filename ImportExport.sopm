@@ -11,6 +11,7 @@
     <Description Lang="de">Das ImportExport Paket.</Description>
     <Description Lang="es">El paquete ImportExport.</Description>
     <Description Lang="hu">Az ImportExport csomag.</Description>
+
     <Filelist>
         <File Permission="660" Location="doc/import-export-database.dia" />
         <File Permission="660" Location="doc/import-export-database.png" />
@@ -120,6 +121,7 @@
         <File Permission="660" Location="var/httpd/htdocs/skins/Agent/default/img/icons/importexport_arrow_down.png" />
         <File Permission="660" Location="var/httpd/htdocs/skins/Agent/default/img/icons/importexport_arrow_down_disabled.png" />
     </Filelist>
+
     <DatabaseInstall Type="post">
         <TableCreate Name="imexport_template">
             <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
@@ -191,6 +193,7 @@
             </Index>
         </TableCreate>
     </DatabaseInstall>
+
     <DatabaseUninstall Type="pre">
         <TableDrop Name="imexport_template" />
         <TableDrop Name="imexport_object" />
@@ -200,6 +203,7 @@
         <TableDrop Name="imexport_mapping_format" />
         <TableDrop Name="imexport_search" />
     </DatabaseUninstall>
+
     <CodeInstall Type="post"><![CDATA[
 
         # create the package name
@@ -208,7 +212,23 @@
         $Kernel::OM->Get($CodeModule)->CodeInstall();
 
     ]]></CodeInstall>
-    <!-- It is IMPORTANT that this CodeUpgrade (Version="2.0.3") comes BEFORE the regular CodeUpgrade block without any version number! -->
+
+    <!-- It is IMPORTANT that version specific CodeUpgrade blocks are placed BEFORE the generic CodeUpgrade block without any version number! -->
+
+    <CodeUpgrade Type="post"><![CDATA[
+
+        # create the package name
+        my $CodeModule = 'var::packagesetup::' . $Param{Structure}->{Name}->{Content};
+
+        # discard internally stored object, so that the next access to object creates them newly
+        $Kernel::OM->ObjectsDiscard(
+            Objects            => [$CodeModule],
+            ForcePackageReload => 1,
+        );
+
+        $Kernel::OM->Get($CodeModule)->CodeUpgrade();
+
+    ]]></CodeUpgrade>
 
     <IntroUninstall Type="pre" Title="Uninstallation Information" Lang="en"><![CDATA[
 
@@ -224,6 +244,7 @@
         </br>
 
     ]]></IntroUninstall>
+
     <IntroUninstall Type="pre" Title="Uninstallation Information" Lang="de"><![CDATA[
 
         </br>
@@ -238,6 +259,7 @@
         </br>
 
     ]]></IntroUninstall>
+
     <IntroUninstall Type="pre" Title="Uninstallation Information" Lang="es"><![CDATA[
 
         <br/>
@@ -252,6 +274,7 @@
         <br/>
 
     ]]></IntroUninstall>
+
     <IntroUninstall Type="pre" Title="Eltávolítási információk" Lang="hu"><![CDATA[
 
         </br>
@@ -266,4 +289,5 @@
         </br>
 
     ]]></IntroUninstall>
+
 </otobo_package>
