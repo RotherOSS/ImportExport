@@ -16,9 +16,17 @@
 
 package Kernel::Modules::AdminImportExport;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -27,10 +35,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -57,12 +62,13 @@ sub Run {
         }
 
         # get format list
-        my $FormatList = $ImportExportObject->FormatList();
+        my $FormatList = $ImportExportObject->FormatList;
 
         if ( !$FormatList ) {
             $LayoutObject->FatalError(
                 Message => Translatable('No format backend found!'),
             );
+
             return;
         }
 
@@ -93,6 +99,7 @@ sub Run {
                 $LayoutObject->FatalError(
                     Message => Translatable('Template not found!'),
                 );
+
                 return;
             }
 
@@ -614,18 +621,15 @@ sub Run {
             );
         }
 
-        # output header and navbar
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-
-        # start template output
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminImportExport',
-            Data         => \%Param,
-        );
-
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        # output the complete HTML
+        return join '',
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar,
+            $LayoutObject->Output(
+                TemplateFile => 'AdminImportExport',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer;
     }
 
     # ------------------------------------------------------------ #
@@ -895,18 +899,15 @@ sub Run {
             );
         }
 
-        # output header and navbar
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-
-        # start template output
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminImportExport',
-            Data         => \%Param,
-        );
-
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        # output the complete HTML
+        return join '',
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar,
+            $LayoutObject->Output(
+                TemplateFile => 'AdminImportExport',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer;
     }
 
     # ------------------------------------------------------------ #
@@ -1086,18 +1087,15 @@ sub Run {
             },
         );
 
-        # output header and navbar
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-
-        # start template output
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminImportExport',
-            Data         => \%Param,
-        );
-
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        # output the complete HTML
+        return join '',
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar,
+            $LayoutObject->Output(
+                TemplateFile => 'AdminImportExport',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer;
     }
 
     # ------------------------------------------------------------ #
@@ -1145,8 +1143,9 @@ sub Run {
         }
 
         # output header and navbar
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
+        my $Output = join '',
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar;
 
         # output import results
         $LayoutObject->Block(
@@ -1200,15 +1199,13 @@ sub Run {
         }
 
         # start output
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminImportExport',
-            Data         => {
-                %Param,
-            },
-        );
-
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $Output,
+            $LayoutObject->Output(
+                TemplateFile => 'AdminImportExport',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer;
     }
 
     # ------------------------------------------------------------ #
@@ -1278,18 +1275,14 @@ sub Run {
             $LayoutObject->Block( Name => 'NoteObjectBackend' );
 
             # output header and navbar
-            my $Output = $LayoutObject->Header();
-            $Output .= $LayoutObject->NavigationBar();
-
-            # start template output
-            $Output .= $LayoutObject->Output(
-                TemplateFile => 'AdminImportExport',
-                Data         => \%Param,
-            );
-
-            $Output .= $LayoutObject->Footer();
-            return $Output;
-
+            return join '',
+                $LayoutObject->Header,
+                $LayoutObject->NavigationBar,
+                $LayoutObject->Output(
+                    TemplateFile => 'AdminImportExport',
+                    Data         => \%Param,
+                ),
+                $LayoutObject->Footer;
         }
 
         # get format list
@@ -1380,18 +1373,15 @@ sub Run {
             $LayoutObject->Block( Name => 'NoDataFoundMsg' );
         }
 
-        # output header and navbar
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-
-        # start template output
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminImportExport',
-            Data         => \%Param,
-        );
-
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        # output the complete HTML
+        return join '',
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar,
+            $LayoutObject->Output(
+                TemplateFile => 'AdminImportExport',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer;
     }
 }
 
@@ -1516,18 +1506,15 @@ sub _MaskTemplateEdit1 {
         );
     }
 
-    # output header and navbar
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
-
-    # start template output
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminImportExport',
-        Data         => \%Param,
-    );
-
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    # output the complet HTML
+    return join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
+        $LayoutObject->Output(
+            TemplateFile => 'AdminImportExport',
+            Data         => \%Param,
+        ),
+        $LayoutObject->Footer;
 }
 
 sub _MaskTemplateEdit2 {
@@ -1697,19 +1684,15 @@ sub _MaskTemplateEdit2 {
         );
     }
 
-    # output header and navbar
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
-
-    # start template output
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminImportExport',
-        Data         => \%Param,
-    );
-
-    $Output .= $LayoutObject->Footer();
-    return $Output;
-
+    # output the complet HTML
+    return join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
+        $LayoutObject->Output(
+            TemplateFile => 'AdminImportExport',
+            Data         => \%Param,
+        ),
+        $LayoutObject->Footer;
 }
 
 sub _MaskTemplateEdit3 {
@@ -1855,18 +1838,14 @@ sub _MaskTemplateEdit3 {
     }
 
     # output header and navbar
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
-
-    # start template output
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminImportExport',
-        Data         => \%Param,
-    );
-
-    $Output .= $LayoutObject->Footer();
-    return $Output;
-
+    return join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
+        $LayoutObject->Output(
+            TemplateFile => 'AdminImportExport',
+            Data         => \%Param,
+        ),
+        $LayoutObject->Footer;
 }
 
 1;
