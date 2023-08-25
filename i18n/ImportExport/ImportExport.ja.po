@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ImportExport\n"
 "POT-Creation-Date: 2020-01-24 10:41+0000\n"
-"PO-Revision-Date: 2022-01-12 23:15+0000\n"
+"PO-Revision-Date: 2023-08-25 11:42+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/"
 "importexport/ja/>\n"
@@ -23,7 +23,7 @@ msgstr "テンプレートを追加"
 
 #. Template: AdminImportExport
 msgid "Create a template to import and export object information."
-msgstr "オブジェクトのインポート・エクスポート用のテンプレートを作成する"
+msgstr "オブジェクトのインポート・エクスポート用のテンプレートを作成する。"
 
 #. Template: AdminImportExport
 msgid "To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported."
@@ -67,7 +67,7 @@ msgstr "Step 3 of 5 - フォーマット情報の設定"
 
 #. Template: AdminImportExport
 msgid "is required!"
-msgstr "必須です"
+msgstr "必須とされています！"
 
 #. Template: AdminImportExport
 msgid "Step 4 of 5 - Edit mapping information"
@@ -75,7 +75,7 @@ msgstr "Step 4 of 5 - マッピング情報の設定"
 
 #. Template: AdminImportExport
 msgid "No map elements found."
-msgstr "マッピング要素が見つかりませんでした"
+msgstr "マッピング要素が見つかりませんでした。"
 
 #. Template: AdminImportExport
 msgid "Add Mapping Element"
@@ -147,11 +147,11 @@ msgstr "テンプレートIDの入力が必要です！"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Error occurred. Import impossible! See Syslog for details."
-msgstr "インポートが出来ません（エラーが発生しました。詳細はシステムログをご確認ください）！"
+msgstr "エラーが発生しました。 インポートできません！ 詳細については、シスログを参照して下さい。"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Error occurred. Export impossible! See Syslog for details."
-msgstr "エクスポートが出来ません（エラーが発生しました。詳細はシステムログをご確認ください）！"
+msgstr "エラーが発生しました。 エクスポートできません！ 詳細については、シスログを参照して下さい。"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Template List"
@@ -175,11 +175,11 @@ msgstr "0以上の整数値"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Element required, please insert data"
-msgstr "データを入力する必要があります。"
+msgstr "要素が必要です。データを挿入してください"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Invalid data, please insert a valid %s"
-msgstr "無効なデータです。有効な %s を入力してください。"
+msgstr "無効なデータです。有効な％sを挿入して下さい。"
 
 #. Perl Module: Kernel/Modules/AdminImportExport.pm
 msgid "Format not found!"
@@ -235,11 +235,11 @@ msgstr "テンプレートが正常に削除されました。"
 
 #. SysConfig
 msgid "Format backend module registration for the import/export module."
-msgstr "import/exportモジュールのバックエンドモジュールを登録"
+msgstr "インポート/エクスポートモジュールのバックエンドモジュール登録をフォーマットします。"
 
 #. SysConfig
 msgid "Import and export object information."
-msgstr "オブジェクト情報のインポート・エクスポート"
+msgstr "オブジェクト情報のインポートとエクスポートをします。"
 
 #. SysConfig
 msgid "Import/Export"
