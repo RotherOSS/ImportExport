@@ -502,29 +502,25 @@ sub Run {
         );
 
         # create headers for object and add common headers
-        my @Headers;
+        my $HeaderCounter;
+        {
+            my @Headers = map { $_->{Name} } $MappingObjectAttributes->@*;
+            push @Headers, 'Column', 'Up', 'Down', 'Delete';
 
-        for my $Header ( @{$MappingObjectAttributes} ) {
-            push @Headers, $Header->{Name};
+            for my $Header (@Headers) {
+
+                # output attribute row
+                $LayoutObject->Block(
+                    Name => 'TemplateEdit4TableHeader',
+                    Data => {
+                        Header => $Header,
+                    },
+                );
+            }
+
+            # to use in colspan for 'no data found' message
+            $HeaderCounter = @Headers;
         }
-
-        for my $CommonHeader ( 'Column', 'Up', 'Down', 'Delete' ) {
-            push @Headers, $CommonHeader;
-        }
-
-        for my $Header (@Headers) {
-
-            # output attribute row
-            $LayoutObject->Block(
-                Name => 'TemplateEdit4TableHeader',
-                Data => {
-                    Header => $Header,
-                },
-            );
-        }
-
-        # to use in colspan for 'no data found' message
-        my $HeaderCounter = @Headers;
 
         my $EmptyMap            = 1;
         my $AttributeRowCounter = 0;
