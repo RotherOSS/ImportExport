@@ -628,17 +628,15 @@ sub ObjectDataGet {
     # get DB object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # ask database
-    $DBObject->Prepare(
-        SQL  => 'SELECT data_key, data_value FROM imexport_object WHERE template_id = ?',
+    # ask database, may be empty
+    my %ObjectData = $DBObject->SelectMapping(
+        SQL => <<'END_SQL',
+SELECT data_key, data_value
+  FROM imexport_object
+  WHERE template_id = ?
+END_SQL
         Bind => [ \$Param{TemplateID} ],
     );
-
-    # fetch the result
-    my %ObjectData;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $ObjectData{ $Row[0] } = $Row[1];
-    }
 
     return \%ObjectData;
 }
@@ -1052,19 +1050,17 @@ sub MappingList {
     # ask database
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # ask database
-    $DBObject->Prepare(
-        SQL  => 'SELECT id FROM imexport_mapping WHERE template_id = ? ORDER BY position',
+    my @MappingIDs = $DBObject->SelectColArray(
+        SQL => <<'END_SQL',
+SELECT id
+  FROM imexport_mapping
+  WHERE template_id = ?
+  ORDER BY position
+END_SQL
         Bind => [ \$Param{TemplateID} ],
     );
 
-    # fetch the result
-    my @MappingList;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @MappingList, $Row[0];
-    }
-
-    return \@MappingList;
+    return \@MappingIDs;
 }
 
 =head2 MappingAdd()
@@ -1624,12 +1620,13 @@ sub MappingObjectDataGet {
         }
     }
 
-    # get DB object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
     # ask database
-    $DBObject->Prepare(
-        SQL  => 'SELECT data_key, data_value FROM imexport_mapping_object WHERE mapping_id = ?',
+    my %MappingObjectData = $Kernel::OM->Get('Kernel::System::DB')->SelectMapping(
+        SQL => <<'END_SQL',
+SELECT data_key, data_value
+  FROM imexport_mapping_object
+  WHERE mapping_id = ?
+END_SQL
         Bind => [ \$Param{MappingID} ],
     );
 
