@@ -1914,10 +1914,11 @@ sub SearchDataGet {
     # fetch the result
     my %SearchData;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $SearchData{ $Row[0] } = $Row[1];
+        push @{ $SearchData{ $Row[0] } }, $Row[1];
     }
 
-    return \%SearchData;
+    # TODO: return and use arrays if the data contains arrays; there should be no reason for this #####-stuff, except backwards compatibility (also change in SearchDataSave())
+    return { map { $_ => join( '#####', $SearchData{$_}->@* ) } keys %SearchData };
 }
 
 =head2 SearchDataSave()
@@ -1972,12 +1973,17 @@ sub SearchDataSave {
         next DATAKEY if !$DataKey;
         next DATAKEY if !$DataValue;
 
-        # insert one row
-        $Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL => 'INSERT INTO imexport_search '
-                . '(template_id, data_key, data_value) VALUES (?, ?, ?)',
-            Bind => [ \$Param{TemplateID}, \$DataKey, \$DataValue ],
-        );
+        VALUE:
+        for my $SingleValue ( split( '#####', $DataValue ) ) {
+            next VALUE if !$SingleValue;
+
+            # insert one row
+            $Kernel::OM->Get('Kernel::System::DB')->Do(
+                SQL => 'INSERT INTO imexport_search '
+                    . '(template_id, data_key, data_value) VALUES (?, ?, ?)',
+                Bind => [ \$Param{TemplateID}, \$DataKey, \$SingleValue ],
+            );
+        }
     }
 
     return 1;
