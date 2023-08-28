@@ -1864,7 +1864,7 @@ sub MappingFormatDataGet {
 
 =head2 SearchAttributesGet()
 
-Get the search attributes of a object backend as array/hash reference
+gets the search attributes of an object backend as a reference to an array of hash references.
 
     my $Attributes = $ImportExportObject->SearchAttributesGet(
         TemplateID => 123,
@@ -1915,12 +1915,10 @@ sub SearchAttributesGet {
     return unless $Backend;
 
     # get an search attribute list of an object
-    my $Attributes = $Backend->SearchAttributesGet(
+    return $Backend->SearchAttributesGet(
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
-
-    return $Attributes;
 }
 
 =head2 SearchDataGet()
@@ -1964,7 +1962,7 @@ sub SearchDataGet {
         push @{ $SearchData{ $Row[0] } }, $Row[1];
     }
 
-    # TODO: return and use arrays if the data contains arrays; there should be no reason for this #####-stuff, except backwards compatibility (also change in SearchDataSave())
+# TODO: return and use arrays if the data contains arrays; there should be no reason for this #####-stuff, except backwards compatibility (also change in SearchDataSave())
     return { map { $_ => join( '#####', $SearchData{$_}->@* ) } keys %SearchData };
 }
 
@@ -2023,8 +2021,8 @@ sub SearchDataSave {
         next DATAKEY if !$DataValue;
 
         VALUE:
-        for my $SingleValue ( split( '#####', $DataValue ) ) {
-            next VALUE if !$SingleValue;
+        for my $SingleValue ( split /#####/, $DataValue ) {
+            next VALUE unless $SingleValue;    # TODO: why is '0' not allowed ?
 
             # insert one row
             $Kernel::OM->Get('Kernel::System::DB')->Do(
