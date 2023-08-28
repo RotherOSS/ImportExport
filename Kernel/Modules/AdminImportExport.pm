@@ -435,33 +435,11 @@ sub Run {
             return;
         }
 
-        # generate ObjectOptionStrg
-        my $ObjectOptionStrg = $LayoutObject->BuildSelection(
-            Data         => $ObjectList,
-            Name         => 'Object',
-            SelectedID   => $TemplateData->{Object},
-            PossibleNone => 1,
-            Translation  => 1,
-            Class        => 'Modernize',
-        );
-
-        # generate FormatOptionStrg
-        my $FormatOptionStrg = $LayoutObject->BuildSelection(
-            Data         => $FormatList,
-            Name         => 'Format',
-            SelectedID   => $TemplateData->{Format},
-            PossibleNone => 1,
-            Translation  => 1,
-            Class        => 'Modernize',
-        );
-
         # output overview
         $LayoutObject->Block(
             Name => 'Overview',
             Data => {
                 %Param,
-                ObjectOptionStrg => $ObjectOptionStrg,
-                FormatOptionStrg => $FormatOptionStrg,
             },
         );
 
@@ -823,33 +801,11 @@ sub Run {
             return;
         }
 
-        # generate ObjectOptionStrg
-        my $ObjectOptionStrg = $LayoutObject->BuildSelection(
-            Data         => $ObjectList,
-            Name         => 'Object',
-            SelectedID   => $TemplateData->{Object},
-            PossibleNone => 1,
-            Translation  => 1,
-            Class        => 'Modernize',
-        );
-
-        # generate FormatOptionStrg
-        my $FormatOptionStrg = $LayoutObject->BuildSelection(
-            Data         => $FormatList,
-            Name         => 'Format',
-            SelectedID   => $TemplateData->{Format},
-            PossibleNone => 1,
-            Translation  => 1,
-            Class        => 'Modernize',
-        );
-
         # output overview
         $LayoutObject->Block(
             Name => 'Overview',
             Data => {
                 %Param,
-                ObjectOptionStrg => $ObjectOptionStrg,
-                FormatOptionStrg => $FormatOptionStrg,
             },
         );
 
@@ -870,7 +826,7 @@ sub Run {
                     Type => 'Checkbox',
                 },
             },
-            Value => scalar keys %{$SearchData},
+            Value => scalar keys $SearchData->%*,
         );
 
         # output list
@@ -889,7 +845,7 @@ sub Run {
         );
 
         # output object attributes
-        for my $Item ( @{$SearchAttributeList} ) {
+        for my $Item ( $SearchAttributeList->@* ) {
 
             # create form input
             my $InputString = $LayoutObject->ImportExportFormInputCreate(
@@ -1059,33 +1015,11 @@ sub Run {
             return;
         }
 
-        # generate ObjectOptionStrg
-        my $ObjectOptionStrg = $LayoutObject->BuildSelection(
-            Data         => $ObjectList,
-            Name         => 'Object',
-            SelectedID   => $TemplateData->{Object},
-            PossibleNone => 1,
-            Translation  => 1,
-            Class        => 'Modernize',
-        );
-
-        # generate FormatOptionStrg
-        my $FormatOptionStrg = $LayoutObject->BuildSelection(
-            Data         => $FormatList,
-            Name         => 'Format',
-            SelectedID   => $TemplateData->{Format},
-            PossibleNone => 1,
-            Translation  => 1,
-            Class        => 'Modernize',
-        );
-
         # output overview
         $LayoutObject->Block(
             Name => 'Overview',
             Data => {
                 %Param,
-                ObjectOptionStrg => $ObjectOptionStrg,
-                FormatOptionStrg => $FormatOptionStrg,
             },
         );
 
@@ -1157,11 +1091,6 @@ sub Run {
             return;
         }
 
-        # output header and navbar
-        my $Output = join '',
-            $LayoutObject->Header,
-            $LayoutObject->NavigationBar;
-
         # output import results
         $LayoutObject->Block(
             Name => 'ImportResult',
@@ -1215,7 +1144,8 @@ sub Run {
 
         # start output
         return join '',
-            $Output,
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar,
             $LayoutObject->Output(
                 TemplateFile => 'AdminImportExport',
                 Data         => \%Param,
@@ -1459,6 +1389,7 @@ sub _MaskTemplateEdit1 {
         );
     }
 
+    # for new Import/Export templates
     if ( $Param{New} ) {
 
         # get ImportExport object
