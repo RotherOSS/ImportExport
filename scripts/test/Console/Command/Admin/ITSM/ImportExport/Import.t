@@ -25,13 +25,12 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
-my $CommandObject      = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::ITSM::ImportExport::Import');
-my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
+my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::ITSM::ImportExport::Import');
+my $GeneralCatalogObject = $Kernel::OM->Get('Kernel::System::GeneralCatalog');
+my $ImportExportObject   = $Kernel::OM->Get('Kernel::System::ImportExport');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -44,7 +43,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # test command without --template-number option
 my $ExitCode = $CommandObject->Execute();
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "No --template-number  - exit code",
@@ -59,14 +58,10 @@ my $TemplateID = $ImportExportObject->TemplateAdd(
     Comment => 'Comment',
     UserID  => 1,
 );
-
-$Self->True(
-    $TemplateID,
-    "Import/Export template is created - $TemplateID",
-);
+ok( $TemplateID, "Import/Export template is created - $TemplateID" );
 
 # get 'Hardware' catalog class ID
-my $ConfigItemDataRef = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemGet(
+my $ConfigItemDataRef = $GeneralCatalogObject->ItemGet(
     Class => 'ITSM::ConfigItem::Class',
     Name  => 'Hardware',
 );
@@ -83,10 +78,7 @@ my $Success = $ImportExportObject->ObjectDataSave(
     UserID     => 1,
 );
 
-$Self->True(
-    $Success,
-    "ObjectData for test template is added",
-);
+ok( $Success, "ObjectData for test template is added" );
 
 # add the format data of the test template
 my %FormatData = (
@@ -100,10 +92,7 @@ $Success = $ImportExportObject->FormatDataSave(
     UserID     => 1,
 );
 
-$Self->True(
-    $Success,
-    "FormatData for test template is added",
-);
+ok( $Success, "FormatData for test template is added" );
 
 # save the search data of a template
 my %SearchData = (
@@ -130,10 +119,7 @@ for my $ObjectDataValue (qw( Name DeplState InciState )) {
         UserID            => 1,
     );
 
-    $Self->True(
-        $Success,
-        "ObjectData for test template is mapped - $ObjectDataValue",
-    );
+    ok( $Success, "ObjectData for test template is mapped - $ObjectDataValue" );
 }
 
 # make directory for export file
@@ -142,7 +128,7 @@ my $SourcePath = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/tes
 # test command with wrong template number
 $ExitCode = $CommandObject->Execute( '--template-number', $Helper->GetRandomID(), $SourcePath . 'TemplateExport.csv' );
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "Command with wrong template number - exit code",
@@ -151,7 +137,7 @@ $Self->Is(
 # test command without Source argument
 $ExitCode = $CommandObject->Execute( '--template-number', $TemplateID );
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "No Source argument - exit code",
@@ -160,7 +146,7 @@ $Self->Is(
 # test command with --template-number option and Source argument
 $ExitCode = $CommandObject->Execute( '--template-number', $TemplateID, $SourcePath );
 
-$Self->Is(
+is(
     $ExitCode,
     0,
     "Option - --template-number option and Source argument",
@@ -173,9 +159,6 @@ my $ConfigItemIDs = $Kernel::OM->Get('Kernel::System::ITSMConfigItem')->ConfigIt
 my $NumConfigItemImported = scalar @{$ConfigItemIDs};
 
 # check if the config items are imported
-$Self->True(
-    $NumConfigItemImported,
-    "There are $NumConfigItemImported imported config items",
-);
+ok( $NumConfigItemImported, "There are $NumConfigItemImported imported config items" );
 
 done_testing;
