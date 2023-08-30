@@ -20,7 +20,6 @@ use warnings;
 use utf8;
 
 # core modules
-use File::Path qw(mkpath rmtree);
 use Path::Class qw(dir file);
 
 # CPAN modules
@@ -160,10 +159,9 @@ for my $ObjectDataValue (qw( Name DeplState InciState )) {
         UserID     => 1,
     );
 
-    my %MappingObjectData = ( Key => $ObjectDataValue );
-    my $Success           = $ImportExportObject->MappingObjectDataSave(
+    my $Success = $ImportExportObject->MappingObjectDataSave(
         MappingID         => $MappingID,
-        MappingObjectData => \%MappingObjectData,
+        MappingObjectData => { Key => $ObjectDataValue },
         UserID            => 1,
     );
 
@@ -226,8 +224,7 @@ ok( -e $ExportFilename, 'export file was finally generated' );
 
 # remove test destination path
 diag("deleting $DestinationPath");
-
-rmtree( [$DestinationPath] );
+dir($DestinationPath)->rmtree;
 ok( !-d $DestinationPath, 'test directory deleted' );
 
 done_testing;
