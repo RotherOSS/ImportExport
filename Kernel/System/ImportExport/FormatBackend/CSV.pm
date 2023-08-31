@@ -25,6 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Text::CSV;
 
 # OTOBO modules
 
@@ -60,16 +61,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Text::CSV') ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "CPAN module Text::CSV is required to use the CSV import/export module!",
-        );
-        return;
-    }
+    my $Self = bless {}, $Type;
 
     # define available separators
     $Self->{AvailableSeparators} = {
