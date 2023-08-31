@@ -242,7 +242,7 @@ sub Run {
         my %DataTypeError;
 
         # get attribute values from form
-        for my $Item ( @{$ObjectAttributeList} ) {
+        for my $Item ( $ObjectAttributeList->@* ) {
 
             # get form data
             $AttributeValues{ $Item->{Key} } = $LayoutObject->ImportExportFormDataGet(
@@ -356,7 +356,7 @@ sub Run {
 
         # get attribute values from form
         my %AttributeValues;
-        for my $Item ( @{$FormatAttributeList} ) {
+        for my $Item ( $FormatAttributeList->@* ) {
 
             # get form data
             $AttributeValues{ $Item->{Key} } = $LayoutObject->ImportExportFormDataGet(
@@ -462,7 +462,7 @@ sub Run {
         );
 
         # get as list of mapping IDs for this template
-        my $MappingList = $ImportExportObject->MappingList(
+        my $MappingIDs = $ImportExportObject->MappingIDs(
             TemplateID => $TemplateData->{TemplateID},
             UserID     => $Self->{UserID},
         );
@@ -473,14 +473,8 @@ sub Run {
             UserID     => $Self->{UserID},
         );
 
-        # get format attributes
-        my $MappingFormatAttributes = $ImportExportObject->MappingFormatAttributesGet(
-            TemplateID => $TemplateData->{TemplateID},
-            UserID     => $Self->{UserID},
-        );
-
-        # create headers for object and add common headers
-        my $HeaderCounter;
+        # create the object specific headers and add the common headers
+        my $NumColumns;
         {
             my @Headers = map { $_->{Name} } $MappingObjectAttributes->@*;
             push @Headers, 'Column', 'Up', 'Down', 'Delete';
@@ -497,12 +491,12 @@ sub Run {
             }
 
             # to use in colspan for 'no data found' message
-            $HeaderCounter = @Headers;
+            $NumColumns = @Headers;
         }
 
         my $EmptyMap            = 1;
         my $AttributeRowCounter = 0;
-        for my $MappingID ( @{$MappingList} ) {
+        for my $MappingID ( $MappingIDs->@* ) {
 
             $EmptyMap = 0;
 
@@ -548,21 +542,18 @@ sub Run {
                 );
             }
 
-            for my $Item ( $MappingFormatAttributes->@* ) {
-
-                # output column counter
-                $LayoutObject->Block(
-                    Name => 'TemplateEdit4MapNumberColumn',
-                    Data => {
-                        Counter => $AttributeRowCounter,
-                    },
-                );
-            }
+            # output column counter
+            $LayoutObject->Block(
+                Name => 'TemplateEdit4MapNumberColumn',
+                Data => {
+                    Counter => $AttributeRowCounter,
+                },
+            );
 
             # hide the up button for first element and down button for the last element
             my $UpBlock;
             my $DownBlock;
-            my $NumberOfElements = @{$MappingList};
+            my $NumberOfElements = $MappingIDs->@*;
 
             if ( $AttributeRowCounter == 0 ) {
                 $UpBlock = 'TemplateEdit4NoUpButton';
@@ -601,7 +592,7 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'TemplateEdit4NoMapFound',
                 Data => {
-                    Columns => $HeaderCounter,
+                    Columns => $NumColumns,
                 },
             );
         }
@@ -642,11 +633,12 @@ sub Run {
 
             $Subaction    = $Submit{$SubmitKey};
             $SubmitButton = $SubmitKey;
+
             last PARAM;
         }
 
         # get mapping data list
-        my $MappingList = $ImportExportObject->MappingList(
+        my $MappingIDs = $ImportExportObject->MappingIDs(
             TemplateID => $TemplateID,
             UserID     => $Self->{UserID},
         );
@@ -665,7 +657,7 @@ sub Run {
 
         my $Counter = 0;
         MAPPINGID:
-        for my $MappingID ( @{$MappingList} ) {
+        for my $MappingID ( $MappingIDs->@* ) {
 
             # get object attribute values
             my %ObjectAttributeValues;
@@ -687,7 +679,7 @@ sub Run {
 
             # get format attribute values
             my %FormatAttributeValues;
-            for my $Item ( @{$MappingFormatAttributes} ) {
+            for my $Item ( $MappingFormatAttributes->@* ) {
 
                 # get format form data
                 $FormatAttributeValues{ $Item->{Key} } = $LayoutObject->ImportExportFormDataGet(
@@ -707,7 +699,7 @@ sub Run {
         }
 
         MAPPINGID:
-        for my $MappingID ( @{$MappingList} ) {
+        for my $MappingID ( $MappingIDs->@* ) {
 
             # delete this mapping row
             if ( $ParamObject->GetParam( Param => "MappingDelete::$MappingID" ) ) {
@@ -923,7 +915,7 @@ sub Run {
 
         # get attribute values from form
         my %AttributeValues;
-        for my $Item ( @{$SearchAttributeList} ) {
+        for my $Item ( $SearchAttributeList->@* ) {
 
             # get form data
             $AttributeValues{ $Item->{Key} } = $LayoutObject->ImportExportFormDataGet(
@@ -1190,7 +1182,7 @@ sub Run {
             return;
         }
 
-        my $FileContent = join "\n", @{ $Result->{DestinationContent} };
+        my $FileContent = join "\n", $Result->{DestinationContent}->@*;
 
         return $LayoutObject->Attachment(
             Type        => 'attachment',
@@ -1274,7 +1266,7 @@ sub Run {
                 UserID => $Self->{UserID},
             );
 
-            if ( !$TemplateList || ref $TemplateList ne 'ARRAY' || !@{$TemplateList} ) {
+            if ( !$TemplateList || ref $TemplateList ne 'ARRAY' || !$TemplateList->@* ) {
                 next CLASS;
             }
 
@@ -1288,7 +1280,7 @@ sub Run {
                 },
             );
 
-            for my $TemplateID ( @{$TemplateList} ) {
+            for my $TemplateID ( $TemplateList->@* ) {
 
                 # get template data
                 my $TemplateData = $ImportExportObject->TemplateGet(
@@ -1571,7 +1563,7 @@ sub _MaskTemplateEdit2 {
     $PredefinedErrorMessages{IntegerBiggerThanZero} = $LayoutObject->{LanguageObject}->Translate('integer bigger than zero');
 
     # output object attributes
-    for my $Item ( @{$ObjectAttributeList} ) {
+    for my $Item ( $ObjectAttributeList->@* ) {
 
         my $Class = ' ';
         my $Value;
@@ -1676,8 +1668,7 @@ sub _MaskTemplateEdit3 {
     my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
 
     # get template data
-    my $TemplateData;
-    $TemplateData = $ImportExportObject->TemplateGet(
+    my $TemplateData = $ImportExportObject->TemplateGet(
         TemplateID => $TemplateID,
         UserID     => $Self->{UserID},
     );
@@ -1743,7 +1734,7 @@ sub _MaskTemplateEdit3 {
     }
 
     # output format attributes
-    for my $Item ( @{$FormatAttributeList} ) {
+    for my $Item ( $FormatAttributeList->@* ) {
 
         # build id
         my $ID;

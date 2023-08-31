@@ -110,16 +110,10 @@ sub TemplateList {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # ask database
-    $DBObject->Prepare(
+    my @TemplateList = $DBObject->SelectColArray(
         SQL  => $SQL,
         Bind => \@BIND,
     );
-
-    # fetch the result
-    my @TemplateList;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @TemplateList, $Row[0];
-    }
 
     return \@TemplateList;
 }
@@ -171,29 +165,26 @@ sub TemplateGet {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # ask database
-    $DBObject->Prepare(
+    my @Row = $DBObject->SelectRowArray(
         SQL => 'SELECT id, imexport_object, imexport_format, name, valid_id, comments, '
             . 'create_time, create_by, change_time, change_by FROM imexport_template WHERE id = ?',
         Bind  => [ \$Param{TemplateID} ],
         Limit => 1,
     );
 
-    # fetch the result
     my %TemplateData;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $TemplateData{TemplateID} = $Row[0];
-        $TemplateData{Object}     = $Row[1];
-        $TemplateData{Format}     = $Row[2];
-        $TemplateData{Name}       = $Row[3];
-        $TemplateData{ValidID}    = $Row[4];
-        $TemplateData{Comment}    = $Row[5] || '';
-        $TemplateData{CreateTime} = $Row[6];
-        $TemplateData{CreateBy}   = $Row[7];
-        $TemplateData{ChangeTime} = $Row[8];
-        $TemplateData{ChangeBy}   = $Row[9];
+    $TemplateData{TemplateID} = $Row[0];
+    $TemplateData{Object}     = $Row[1];
+    $TemplateData{Format}     = $Row[2];
+    $TemplateData{Name}       = $Row[3];
+    $TemplateData{ValidID}    = $Row[4];
+    $TemplateData{Comment}    = $Row[5] || '';
+    $TemplateData{CreateTime} = $Row[6];
+    $TemplateData{CreateBy}   = $Row[7];
+    $TemplateData{ChangeTime} = $Row[8];
+    $TemplateData{ChangeBy}   = $Row[9];
 
-        $TemplateData{Number} = sprintf "%06d", $TemplateData{TemplateID};
-    }
+    $TemplateData{Number} = sprintf "%06d", $TemplateData{TemplateID};
 
     # cache the result
     $Self->{Cache}->{TemplateGet}->{ $Param{TemplateID} } = \%TemplateData;
@@ -286,28 +277,29 @@ sub TemplateAdd {
 
     # insert new template
     return unless $DBObject->Do(
-        SQL => 'INSERT INTO imexport_template '
-            . '(imexport_object, imexport_format, name, valid_id, comments, '
-            . 'create_time, create_by, change_time, change_by) VALUES '
-            . '(?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        SQL => <<'END_SQL',
+INSERT INTO imexport_template (
+    imexport_object, imexport_format, name, valid_id, comments,
+    create_time, create_by, change_time, change_by
+  )
+  VALUES (
+    ?, ?, ?, ?, ?,
+    current_timestamp, ?, current_timestamp, ?
+  )
+END_SQL
         Bind => [
-            \$Param{Object},  \$Param{Format}, \$Param{Name}, \$Param{ValidID},
-            \$Param{Comment}, \$Param{UserID}, \$Param{UserID},
+            \$Param{Object}, \$Param{Format}, \$Param{Name}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{UserID}, \$Param{UserID},
         ],
     );
 
     # find id of new template
-    $DBObject->Prepare(
+    # TODO: use the insert_id when that functionality becomes available
+    my ($TemplateID) = $DBObject->SelectRowArray(
         SQL   => 'SELECT id FROM imexport_template WHERE imexport_object = ? AND name = ?',
         Bind  => [ \$Param{Object}, \$Param{Name} ],
         Limit => 1,
     );
-
-    # fetch the result
-    my $TemplateID;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $TemplateID = $Row[0];
-    }
 
     return $TemplateID;
 }
@@ -2353,7 +2345,7 @@ sub Import {
         Counter => 0,
     );
     IMPORTDATAROW:
-    for my $ImportDataRow ( @{$ImportData} ) {
+    for my $ImportDataRow ( $ImportData->@* ) {
 
         $Result{Counter}++;
 

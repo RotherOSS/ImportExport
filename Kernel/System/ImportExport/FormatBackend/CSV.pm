@@ -16,8 +16,17 @@
 
 package Kernel::System::ImportExport::FormatBackend::CSV;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 use Kernel::Language qw(Translatable);
 
@@ -93,6 +102,7 @@ sub FormatAttributesGet {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
@@ -164,6 +174,7 @@ sub MappingFormatAttributesGet {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
@@ -204,11 +215,12 @@ sub ImportDataGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
-    return [] if !defined $Param{SourceContent};
+    return [] unless defined $Param{SourceContent};
 
     # check source content
     if ( ref $Param{SourceContent} ne 'SCALAR' ) {
@@ -216,6 +228,7 @@ sub ImportDataGet {
             Priority => 'error',
             Message  => 'SourceContent must be a scalar reference',
         );
+
         return;
     }
 
@@ -231,6 +244,7 @@ sub ImportDataGet {
             Priority => 'error',
             Message  => "No format data found for the template id $Param{TemplateID}",
         );
+
         return;
     }
 
@@ -244,6 +258,7 @@ sub ImportDataGet {
             Priority => 'error',
             Message  => "No valid charset found for the template id $Param{TemplateID}. Charset must be UTF-8!",
         );
+
         return;
     }
 
@@ -258,6 +273,7 @@ sub ImportDataGet {
             Priority => 'error',
             Message  => "No valid separator found for the template id $Param{TemplateID}",
         );
+
         return;
     }
 
@@ -348,6 +364,7 @@ sub ExportDataSave {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -358,6 +375,7 @@ sub ExportDataSave {
             Priority => 'error',
             Message  => 'ExportDataRow must be an array reference',
         );
+
         return;
     }
 
@@ -373,6 +391,7 @@ sub ExportDataSave {
             Priority => 'error',
             Message  => "No format data found for the template id $Param{TemplateID}",
         );
+
         return;
     }
 
@@ -386,6 +405,7 @@ sub ExportDataSave {
             Priority => 'error',
             Message  => "No valid charset found for the template id $Param{TemplateID}. Charset must be UTF-8!",
         );
+
         return;
     }
 
@@ -400,6 +420,7 @@ sub ExportDataSave {
             Priority => 'error',
             Message  => "No valid separator found for the template id $Param{TemplateID}",
         );
+
         return;
     }
 
@@ -427,11 +448,12 @@ sub ExportDataSave {
             Priority => 'error',
             Message  => "Can't combine the export data to a string!",
         );
+
         return;
     }
 
     # create the CSV string
-    my $String = $ParseObject->string();
+    my $String = $ParseObject->string;
 
     # set utf8 flag
     Encode::_utf8_on($String);
