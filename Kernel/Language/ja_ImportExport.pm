@@ -31,7 +31,7 @@ sub Data {
         'このモジュールを利用するには、 ITSMConfigurationManagement か、オブジェクトのインポートおよびエクスポートの機能を提供するパッケージをインストールする必要があります。';
     $Self->{Translation}->{'Start Import'} = 'インポート開始';
     $Self->{Translation}->{'Start Export'} = 'エクスポート開始';
-    $Self->{Translation}->{'Delete this template'} = '';
+    $Self->{Translation}->{'Delete this template'} = 'このテンプレートを削除';
     $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Step 1 of 5 - 基本情報の設定';
     $Self->{Translation}->{'Name is required!'} = '名称は必須です!';
     $Self->{Translation}->{'Object is required!'} = 'オブジェクトは必須です!';

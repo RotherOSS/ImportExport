@@ -31,7 +31,7 @@ sub Data {
         'Damit Sie dieses Modul nutzen können, müssen Sie das Paket ITSM Configuration Management oder jedes andere Paket installieren, das ein Backend für zu exportierende und importierende Objekte bereitstellt.';
     $Self->{Translation}->{'Start Import'} = 'Import starten';
     $Self->{Translation}->{'Start Export'} = 'Export starten';
-    $Self->{Translation}->{'Delete this template'} = '';
+    $Self->{Translation}->{'Delete this template'} = 'Diese Vorlage löschen';
     $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Schritt 1 von 5 - Allgemeine Informationen bearbeiten';
     $Self->{Translation}->{'Name is required!'} = 'Name wird benötigt!';
     $Self->{Translation}->{'Object is required!'} = 'Objekt ist erforderlich!';
@@ -73,7 +73,7 @@ sub Data {
 
     # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
     $Self->{Translation}->{'Column Separator'} = 'Spaltentrenner';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulator (TAB)';
+    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulatortaste (TAB)';
     $Self->{Translation}->{'Semicolon (;)'} = 'Semikolon (;)';
     $Self->{Translation}->{'Colon (:)'} = 'Doppelpunkt (:)';
     $Self->{Translation}->{'Dot (.)'} = 'Punkt (.)';
