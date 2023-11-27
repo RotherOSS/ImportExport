@@ -1636,7 +1636,6 @@ sub _MaskTemplateEdit2 {
         my $Class = ' ';
         my $Value;
 
-        my $DataTypeError;
         my $ErrorMessage;
 
         if ( $Item->{Input}->{Required} ) {
