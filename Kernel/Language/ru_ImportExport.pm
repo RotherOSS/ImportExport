@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,10 +28,10 @@ sub Data {
     $Self->{Translation}->{'Add template'} = 'Добавить шаблон';
     $Self->{Translation}->{'Create a template to import and export object information.'} = 'Создайте шаблон для импорта и экспорта информации объектов';
     $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
+        'Чтобы использовать этот модуль, необходимо установить ITSMConfigurationManagement или любой другой пакет, который предоставляет бэк-энд для импорта и экспорта объектов.';
     $Self->{Translation}->{'Start Import'} = 'Начать импорт';
     $Self->{Translation}->{'Start Export'} = 'Начать экспорт';
-    $Self->{Translation}->{'Delete this template'} = '';
+    $Self->{Translation}->{'Delete this template'} = 'Удалить этот шаблон';
     $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Шаг 1 из 5 - Редактировать общую информацию';
     $Self->{Translation}->{'Name is required!'} = 'Требуется имя!';
     $Self->{Translation}->{'Object is required!'} = 'Объект обязателен!';
@@ -52,7 +52,7 @@ sub Data {
     $Self->{Translation}->{'Duplicate names'} = 'Дублирующие имена';
     $Self->{Translation}->{'Last processed line number of import file'} = 'Номер последней обработанной строки импортируемого файла';
     $Self->{Translation}->{'Ok'} = 'Ok';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
+    $Self->{Translation}->{'Do you really want to delete this template item?'} = 'Вы действительно хотите удалить этот элемент шаблона?';
 
     # Perl Module: Kernel/Modules/AdminImportExport.pm
     $Self->{Translation}->{'No object backend found!'} = 'Объект не найден!';
@@ -83,10 +83,10 @@ sub Data {
     $Self->{Translation}->{'Column'} = 'Столбец ';
 
     # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
+    $Self->{Translation}->{'Deleting template...'} = 'Удаление шаблона...';
     $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
+        'Произошла ошибка при удалении шаблона. Пожалуйста, проверьте логи для получения дополнительной информации.';
+    $Self->{Translation}->{'Template was deleted successfully.'} = 'Шаблон был успешно удален.';
 
     # SysConfig
     $Self->{Translation}->{'Format backend module registration for the import/export module.'} =

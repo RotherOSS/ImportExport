@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,14 +28,14 @@ sub Data {
     $Self->{Translation}->{'Add template'} = 'Agregar plantilla';
     $Self->{Translation}->{'Create a template to import and export object information.'} = 'Crear una plantilla para importar y exportar información de objetos.';
     $Self->{Translation}->{'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.'} =
-        '';
+        'Para utilizar este módulo, es necesario instalar ITSMConfigurationManagement o cualquier otro paquete que proporcione el back end para la importación y exportación de objetos.';
     $Self->{Translation}->{'Start Import'} = 'Iniciar Importación';
     $Self->{Translation}->{'Start Export'} = 'Iniciar Exportación';
-    $Self->{Translation}->{'Delete this template'} = '';
+    $Self->{Translation}->{'Delete this template'} = 'Eliminar esta plantilla';
     $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Paso 1 de 5 - Editar la información común';
     $Self->{Translation}->{'Name is required!'} = 'Es requerido un nombre!';
     $Self->{Translation}->{'Object is required!'} = 'Es requerido un objeto!';
-    $Self->{Translation}->{'Format is required!'} = 'Es requerido un formato.';
+    $Self->{Translation}->{'Format is required!'} = '¡Es requerido un formato!';
     $Self->{Translation}->{'Step 2 of 5 - Edit object information'} = 'Paso 2 de 5 - Editar la información del objeto';
     $Self->{Translation}->{'Step 3 of 5 - Edit format information'} = 'Paso 3 de 5 - Editar la información de formato';
     $Self->{Translation}->{'is required!'} = 'es requerido!';
@@ -51,8 +51,8 @@ sub Data {
     $Self->{Translation}->{'Success'} = 'Éxito';
     $Self->{Translation}->{'Duplicate names'} = 'Nombres duplicados';
     $Self->{Translation}->{'Last processed line number of import file'} = 'Último número de línea procesada del archivo a importar';
-    $Self->{Translation}->{'Ok'} = 'Aceptar';
-    $Self->{Translation}->{'Do you really want to delete this template item?'} = '';
+    $Self->{Translation}->{'Ok'} = 'Bien';
+    $Self->{Translation}->{'Do you really want to delete this template item?'} = '¿Realmente desea eliminar este elemento de la plantilla?';
 
     # Perl Module: Kernel/Modules/AdminImportExport.pm
     $Self->{Translation}->{'No object backend found!'} = '¡No se encontró un \'backend\' para el objeto!';
@@ -83,10 +83,10 @@ sub Data {
     $Self->{Translation}->{'Column'} = 'Calumna';
 
     # JS File: ITSM.Admin.ImportExport
-    $Self->{Translation}->{'Deleting template...'} = '';
+    $Self->{Translation}->{'Deleting template...'} = 'Eliminando plantilla...';
     $Self->{Translation}->{'There was an error deleting the template. Please check the logs for more information.'} =
-        '';
-    $Self->{Translation}->{'Template was deleted successfully.'} = '';
+        'Se ha producido un error al borrar la plantilla. Por favor, compruebe los logs para obtener más información.';
+    $Self->{Translation}->{'Template was deleted successfully.'} = 'La plantilla ha sido eliminada con éxito.';
 
     # SysConfig
     $Self->{Translation}->{'Format backend module registration for the import/export module.'} =

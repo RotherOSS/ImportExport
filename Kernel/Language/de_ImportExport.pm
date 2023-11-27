@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -31,7 +31,7 @@ sub Data {
         'Damit Sie dieses Modul nutzen können, müssen Sie das Paket ITSM Configuration Management oder jedes andere Paket installieren, das ein Backend für zu exportierende und importierende Objekte bereitstellt.';
     $Self->{Translation}->{'Start Import'} = 'Import starten';
     $Self->{Translation}->{'Start Export'} = 'Export starten';
-    $Self->{Translation}->{'Delete this template'} = '';
+    $Self->{Translation}->{'Delete this template'} = 'Diese Vorlage löschen';
     $Self->{Translation}->{'Step 1 of 5 - Edit common information'} = 'Schritt 1 von 5 - Allgemeine Informationen bearbeiten';
     $Self->{Translation}->{'Name is required!'} = 'Name wird benötigt!';
     $Self->{Translation}->{'Object is required!'} = 'Objekt ist erforderlich!';
@@ -73,7 +73,7 @@ sub Data {
 
     # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
     $Self->{Translation}->{'Column Separator'} = 'Spaltentrenner';
-    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulator (TAB)';
+    $Self->{Translation}->{'Tabulator (TAB)'} = 'Tabulatortaste (TAB)';
     $Self->{Translation}->{'Semicolon (;)'} = 'Semikolon (;)';
     $Self->{Translation}->{'Colon (:)'} = 'Doppelpunkt (:)';
     $Self->{Translation}->{'Dot (.)'} = 'Punkt (.)';
