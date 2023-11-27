@@ -81,12 +81,12 @@ sub FormInputCreate {
     }
 
     my $Prefix = $Param{Prefix} || $Param{Item}{Input}{Prefix} || '';
-    $Prefix   .= $Param{Item}{Key};
+    $Prefix .= $Param{Item}{Key};
 
     # set default value
     $Param{Value} ||= $Param{Item}->{Input}->{ValueDefault};
 
-    if ($Param{Value}) {
+    if ( $Param{Value} ) {
         my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Param{Value} =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
 
@@ -141,7 +141,7 @@ sub FormDataGet {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $Prefix = $Param{Prefix} || $Param{Item}{Input}{Prefix} || '';
-    $Prefix   .= $Param{Item}{Key};
+    $Prefix .= $Param{Item}{Key};
 
     my %Values;
     for my $Type (qw(Used Year Month Day Hour Minute)) {
